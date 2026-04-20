@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>⑥ 実世界スコアと1.4兆トークン | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header"><div class="nav-drawer-title">目次</div><button id="navClose" class="icon-btn" type="button">✕</button></div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャ</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコア</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukong/HW</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリデメ</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>REAL-WORLD EVIDENCE</span>
+      <h1 class="hero-title">⑥ <span class="grad">実世界</span>スコアと<br>1.4兆トークン</h1>
+      <p class="hero-sub">自社独自ベンチマーク群が描く「現場対応力」、視覚コーディング／GUIエージェント、そしてOpenRouterで1日1.4兆トークンを叩き出した開発者の集団移住。</p>
+    </section>
+
+    <!-- 第11章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 11</div>
+      <div class="chapter-title">独自ベンチマーク群の読み解き ― QwenWebBench、QwenClawBench、MCPMark が描く「実世界スコア」</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        原稿が紹介した SWE-bench や GPQA といった「国際大会」に加えて、アリババはエージェント時代の評価軸を独自に再定義しようとしている。それが自社ベンチ群である。
+      </p>
+
+      <h3 class="sub-heading">QwenWebBench ― フロントエンド実装力</h3>
+      <p>
+        英中バイリンガルで、ウェブデザイン／ウェブアプリ／ゲーム／SVG（ベクター画像形式）／データ可視化など7カテゴリにわたり、フロントエンドのコード生成能力を測定するベンチマーク。
+      </p>
+
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Qwen3.6-Plus</span><span class="bench-score">1501.7</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="100%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Qwen3.6-35B-A3B</span><span class="bench-score">1397</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="93%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Gemma4-31B</span><span class="bench-score">1197</span></div>
+        <div class="bench-bar"><div class="bench-fill rival" data-width="80%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Qwen3.5-27B</span><span class="bench-score">1068</span></div>
+        <div class="bench-bar"><div class="bench-fill rival2" data-width="71%"></div></div>
+      </div>
+
+      <h3 class="sub-heading">QwenClawBench & Claw-Eval ― エージェント実動評価</h3>
+      <p>
+        Claude Code のような「ターミナル上で動くコーディングエージェント」の挙動を評価するベンチマーク。特徴は <b>Pass^3</b>（3回試行して3回とも成功する、という厳しい評価基準）を採用していること。
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">QwenClawBench</div><div class="stat-value">52.6</div><div class="stat-unit">35B-A3B</div></div>
+        <div class="stat-card"><div class="stat-label">Claw-Eval Pass^3</div><div class="stat-value">50.0</div><div class="stat-unit">35B-A3B</div></div>
+      </div>
+
+      <h3 class="sub-heading">MCPMark ― ツール呼び出し能力</h3>
+      <p>
+        Model Context Protocol を使ったツール呼び出し能力の総合評価。Qwen3.6-35B-A3B は <b>37.0</b> を記録し、Gemma4-31B の 18.1 を2倍以上引き離した。
+      </p>
+
+      <h3 class="sub-heading">エージェント新世代メトリクス群</h3>
+      <ul class="feat-list">
+        <li><b>DeepPlanning</b>：長期計画能力</li>
+        <li><b>WideSearch</b>：多段階検索</li>
+        <li><b>Tool Decathlon</b>：ツール使用10種競技</li>
+        <li><b>RefCOCO / ODInW13 / EmbSpatialBench / RefSpatialBench</b>：視覚的空間推論</li>
+      </ul>
+
+      <p>
+        アリババが倒しに行っているのは、実はフロンティア勢だけではなく、<b>Meta の Gemma4、DeepSeek、MiniMax、Zhipu といった同じ中国・オープン勢</b>でもある。この多重戦線の構図こそが、Qwen3.6 の戦略的厚みを物語る。
+      </p>
+    </div>
+
+    <!-- 第12章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 12</div>
+      <div class="chapter-title">視覚コーディングとGUIエージェント ― スクリーンショットが即コードに変わる世界</div>
+    </div>
+
+    <div class="body-text">
+      <h3 class="sub-heading">Visual Coding（視覚コーディング）</h3>
+      <p>
+        UIのスクリーンショット、手書きのワイヤーフレーム（ラフスケッチ）、あるいはFigmaなどで作られたプロダクトプロトタイプをAIに見せると、それをHTML／CSS／JavaScript、あるいはReactコンポーネントとしてそのまま実装してくれる能力。
+      </p>
+
+      <div class="callout info">
+        <div class="callout-head">💡 たとえば：紙のラフからダッシュボードへ</div>
+        プロダクトマネージャーが紙のノートに描いたダッシュボードのラフ画をスマホで撮影して Qwen に渡せば、実際に動くダッシュボードのフロントエンドコードが生成される。従来「デザイナー → フロントエンド開発者」という手作業のバケツリレーが必須だった工程を、AI が一手に引き受ける。
+      </div>
+
+      <p>
+        1Mコンテキストと、アリババ公式が「リポジトリレベルのコンテキスト認識」と強調する深い文脈把握が組み合わさり、<b>「このデザインを、既存プロジェクトの設計規約に沿って実装して」という曖昧で人間的な依頼</b>にも応えられるようになる。これが「vibe coding」という流行語の実装側の具体像だ。
+      </p>
+
+      <h3 class="sub-heading">GUI Agent（GUIエージェント）</h3>
+      <p>
+        GUIエージェントはさらに踏み込んだ概念で、AIがブラウザやアプリの画面を「見て」、ボタンを「押して」、フォームに「入力して」、結果を「読んで」、次のアクションを自律的に決めるという、まさに<b>人間の操作をそのまま代替する</b>エージェントである。
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>段階</th><th>能力</th><th>例</th></tr></thead>
+          <tbody>
+            <tr><td>1. 認識</td><td>画面状態の解析</td><td>ボタン・フォーム・テキストを読み取る</td></tr>
+            <tr><td>2. 計画</td><td>長期ワークフロー</td><td>複数ステップを自動連鎖</td></tr>
+            <tr><td>3. 実行</td><td>外部ツール操作</td><td>ブラウザ操作、CLIコマンド実行</td></tr>
+            <tr><td>4. 検証</td><td>CI連携</td><td>自動ビルド・テストの監視</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="quote">
+        アリババが公式にこれを「AI Copilot（副操縦士）から AI Coworker（同僚）への進化」と呼んでいるのは、単なるマーケティング表現ではなく、画面操作という実装レベルの具体性を伴った主張なのである。
+      </div>
+    </div>
+
+    <!-- 第13章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 13</div>
+      <div class="chapter-title">OpenRouter で歴史を塗り替えた「1日1.4兆トークン」 ― 開発者はなぜ Claude を捨てたのか</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        2026年4月第2週、Qwen3.6-Plus は歴史上初めて、単一のAIモデルが24時間で<b>1兆トークンを突破</b>するという記録を OpenRouter 上で打ち立てた。
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：実数は「1.4兆」、比喩も「100〜150回」</div>
+        原稿は「1兆トークン」「Wikipedia 6,000回以上」としていたが、
+        <span class="correct-mark">OpenRouter公式発表は約1.4兆トークン（1,400,000,000,000）</span>で、
+        1兆の大台を史上初めて突破しつつ同日に1.4兆まで積み上がった、というのが正。
+        英語版Wikipediaの全記事トークン総量は概ね80〜100億トークンなので、
+        1.4兆トークンで <span class="correct-mark">約140回、多めに見積もっても100〜150回が上限</span>。
+        「6,000回」は40〜60倍の誇張。
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">OpenRouter 24h</div>
+          <div class="stat-value">1.4兆</div>
+          <div class="stat-unit">トークン処理</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">≒ 英語版Wikipedia</div>
+          <div class="stat-value">約140回</div>
+          <div class="stat-unit">を1日で読み切る規模</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">なぜこれほどの雪崩が起きたのか</h3>
+      <p>
+        開発者コミュニティの反応を追跡していくと、<b>単純な価格差</b>が最大の要因であったことが明瞭になる。Qwen3.6-Plus が 1Mトークンあたり入力 $0.276 で提供される同時期、Claude Opus 4.5 の入力単価は $5.00。約18倍の価格差であり、性能の差はSWE-bench Verified で 80.9 対 78.8、つまり<b>約2ポイント</b>しかない。
+      </p>
+
+      <p>
+        CTOや主任エンジニアたちは、この「ほぼ同等の性能を18分の1のコストで得られる」という計算を瞬時に行い、既存のClaudeパイプラインを置き換え始めた。Reddit、HackerNews、Xの AIコミュニティは 「<b>Claude is bleeding users</b>（Claudeが顧客を失血中）」という言葉で4月中旬の状況を表現している。
+      </p>
+
+      <h3 class="sub-heading">流入した開発者の属性</h3>
+      <div class="callout info">
+        <div class="callout-head">💡 観察：趣味勢ではなく本番勢が移動した</div>
+        単に趣味でAPIを叩く個人開発者だけではなく、
+        <b>数千万トークン/日を消費するプロダクション環境を運用しているスタートアップ、エージェント型SaaS企業、さらには社内自動化を進める中規模IT企業</b>が、数週間でパイプラインを丸ごと移植する事例が続出した。
+      </div>
+
+      <p>
+        Claudeが持っていた「長文理解」「コーディング」「ツール呼び出し」の三つの優位性を、Qwen3.6 は真正面から崩しに来た。しかも<b>1日1.4兆トークンというスループットをサーバー側が捌けている</b>事実は、アリババのインフラ整備がすでに一流クラウドレベルに到達していることの何よりの証左でもある。
+      </p>
+
+      <div class="callout warn">
+        <div class="callout-head">⚠️ ただし忘れてはいけないのは</div>
+        OpenRouter上の <code>qwen/qwen3.6-plus-preview:free</code> は3月末から4月初旬にかけて「無料」で公開されていた。この異例の爆発的利用量の一部は、短期的な無料キャンペーン効果も含んでいる点には留意が必要。
+      </div>
+    </div>
+
+    <div class="pager">
+      <a href="architecture.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ⑤ アーキテクチャ</span></span>
+      </a>
+      <a href="enterprise.html" class="pager-next">
+        <span><span class="lbl">次の章</span><span class="ttl">⑦ Wukong/HW →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>⑨ $53Bの一手と未来 | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header"><div class="nav-drawer-title">目次</div><button id="navClose" class="icon-btn" type="button">✕</button></div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャ</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコア</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukong/HW</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリデメ</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>FUTURE OUTLOOK</span>
+      <h1 class="hero-title">⑨ <span class="grad">$53Bの一手</span>と<br>未来</h1>
+      <p class="hero-sub">アリババ3年で約530億ドル投資／累計10億回超ダウンロード／派生モデル30万種超。2026年第3〜4四半期に到来する「Qwen 4 / 3.7」と次世代フロンティアの衝突。</p>
+    </section>
+
+    <!-- 第18章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 18</div>
+      <div class="chapter-title">$53B の一手と地政学的インパクト ― 次は「Qwen 4」か「Qwen3.7」か</div>
+    </div>
+
+    <div class="body-text">
+      <h3 class="sub-heading">中国テック史上最大級のAI投資計画</h3>
+      <p class="lead">
+        2025年2月、アリババ集団は「今後3年間でAIおよびクラウドインフラに少なくとも<b>3800億人民元（約530億米ドル、日本円換算で約8兆円規模）</b>を投じる」という、中国テック史上最大級の民間AI投資計画を発表した。
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">投資規模</div>
+          <div class="stat-value">$53B</div>
+          <div class="stat-unit">3年間</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">日本円換算</div>
+          <div class="stat-value">約8兆円</div>
+          <div class="stat-unit">民間AI単独</div>
+        </div>
+      </div>
+
+      <p>
+        この数字は、同時期の Microsoft や Meta の年間AI投資規模に匹敵し、OpenAI の投資調達累計に肉薄する。重要なのは、この投資が単なるデータセンター増設ではなく、<b>モデル研究、自社チップ設計（米国からの先端GPU輸出規制への対策）、そしてエコシステム拡大</b>のすべてに振り分けられている点だ。
+      </p>
+
+      <h3 class="sub-heading">Hugging Face 実績の実像（訂正版）</h3>
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：2026年4月時点の実績はもっと大きい</div>
+        原稿は「累計4億回ダウンロード／14万種の派生モデル」としていたが、
+        <span class="correct-mark">これは 2025年年央（7〜8月頃）時点の値</span>。
+        <b>2025年12月時点で単月ダウンロードが他8社合計を上回り、2026年初頭にはアリババ自身が「累計10億回ダウンロード超え」と発表</b>している。
+        2026年4月20日時点では <b>累計10億回超／派生モデル30万種以上</b>規模で記載すべき。
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">累計DL（2026/04）</div>
+          <div class="stat-value">10億回+</div>
+          <div class="stat-unit">HF + ModelScope</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">派生モデル</div>
+          <div class="stat-value">30万+</div>
+          <div class="stat-unit">世界中で二次利用</div>
+        </div>
+      </div>
+
+      <p>
+        この規模は、Meta の Llama が 2023〜2024年に築いたエコシステム規模を<b>2026年に追い抜いた瞬間</b>を意味する。派生モデル数の多さは、世界中の大学・企業・個人開発者が Qwen を「自分のベースモデル」として選んだ証であり、<b>デファクトスタンダード（事実上の標準）の座が Llama から Qwen へ移行した</b>と評する声が強まっている。
+      </p>
+
+      <h3 class="sub-heading">次世代モデルへの期待</h3>
+      <p>
+        Qwen チームは2026年末までに「Qwen 4」または「Qwen3.7」に相当する次世代モデルを投入するという観測が、中国のテックメディアから出ている。噂される方向性は以下：
+      </p>
+
+      <ul class="feat-list">
+        <li>ハイブリッド・リニアアテンションのさらなる拡張</li>
+        <li><b>10Mトークン級</b>コンテキストへの挑戦（現在の1Mの10倍）</li>
+        <li>音声・画像・動画・コードの完全ネイティブ統合（Qwen3.5-Omni-Plus からの進化形）</li>
+        <li>オンデバイス実行を前提とした <b>3B/7Bクラスの MoE 軽量版</b></li>
+        <li>自社設計チップでの推論最適化</li>
+      </ul>
+
+      <h3 class="sub-heading">2026年後半の衝突</h3>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>陣営</th><th>予想される次世代</th><th>投入時期</th></tr></thead>
+          <tbody>
+            <tr><td>OpenAI</td><td>GPT-5.5</td><td>2026 Q3–Q4</td></tr>
+            <tr><td>Anthropic</td><td>Claude Opus 5</td><td>2026 Q3–Q4</td></tr>
+            <tr><td>Google</td><td>Gemini 4 Ultra</td><td>2026 Q3–Q4</td></tr>
+            <tr class="highlight"><td>Alibaba</td><td>Qwen 4 / Qwen3.7</td><td>2026 Q4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="quote">
+        Qwen3.6 はその戦争の「前哨戦」であり、しかし前哨戦にしてはあまりにも攻撃的な一手だった──というのが、本稿の最終的な評価である。
+      </div>
+    </div>
+
+    <!-- エピローグ -->
+    <div class="chapter">
+      <div class="chapter-num">EPILOGUE</div>
+      <div class="chapter-title">読者へ託すメッセージ</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        Qwen3.6 は、単なる新型AIモデルの登場というニュースではなく、<b>AI産業の力学そのものが中国側に大きくシフトした「象徴」</b>として歴史に刻まれるだろう。
+      </p>
+
+      <h3 class="sub-heading">本稿が描いてきた4つの柱</h3>
+      <ul class="feat-list num">
+        <li><b>三位一体のリリース</b>：OpenRouter 先行 → Alibaba Cloud 正式 → オープンウェイトの三段ロケット。</li>
+        <li><b>二段構えの戦略</b>：収益化フラッグシップ（Plus）× オープン覇権装置（35B-A3B）。</li>
+        <li><b>フロンティアに肉薄するベンチマーク</b>：SWE-V で Claude Opus 4.5 に2ポイント差、OmniDocBench で首位。</li>
+        <li><b>破壊的な低価格</b>：$0.276 の入力単価、Opus 4.5 比約18x安。</li>
+      </ul>
+
+      <h3 class="sub-heading">数字の奥に宿る物語</h3>
+      <p>
+        しかし本稿が強調したかったのは、これら数字と戦略論の奥に、
+      </p>
+
+      <ul class="feat-list">
+        <li><b>ハイブリッド・リニアアテンション</b>という静かな技術革命</li>
+        <li><b>Wukong</b>という壮大なエンタープライズ構想（3月17日先行発表）</li>
+        <li><b>1日1.4兆トークン</b>という開発者による集団移住</li>
+        <li><b>26.5%の捏造率</b>という克服すべき影</li>
+      </ul>
+
+      <p>
+        ──という、「ディテールに宿る物語」があるという点である。
+      </p>
+
+      <h3 class="sub-heading">ベンチマークだけを信じない・疑いもしない</h3>
+      <div class="quote">
+        AIを評価する際に最も危険なのは、ベンチマークの数値だけを見てモデルを序列化することだ。しかしその逆に、ベンチマークを無視して印象論で語るのも同じくらい危険だ。
+      </div>
+
+      <p>
+        Qwen3.6 は、SWE-bench で 78.8点、GPQA で 90.4点、OmniDocBench で 91.2点という、数字の列だけを見れば「ほぼ互角」のモデルに見える。しかしその数字の裏には、<b>1Mトークンを現実的コストで回すためのアーキテクチャ革新</b>があり、Apache 2.0 で誰にでも開かれたオープン版があり、AMDと Apple Silicon を含む多重ハードウェア対応があり、Wukong というエンタープライズプラットフォームへの垂直統合がある。
+      </p>
+      <p>
+        逆に言えば、捏造率、安全性、日本語ベンチマーク未公開など、<b>数字が示さない弱点</b>も確かに存在する。読者に託したいのは、ベンチマークだけを信じず、ベンチマークを疑うこともせず、その両面を冷静に見渡したうえで、自分のユースケースに照らして使うかどうかを判断する、という姿勢である。
+      </p>
+
+      <h3 class="sub-heading">地殻変動の本質</h3>
+      <p>
+        2026年春、AIの世界地図は確かに塗り替えられた。しかし塗り替えたのは「アリババ」という一社でも、「中国」という一国でもなく、<b>「オープンウェイトという設計思想そのもの」</b>なのかもしれない。
+      </p>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ 置き土産</div>
+        Qwen3.6 という個別製品の評価を超えて、この大きな地殻変動の先を見据えながら、読者各位が<b>自分たちのプロジェクトやキャリアにこの新時代をどう組み込むか</b>──その問いを、本稿の最後の置き土産として残しておきたい。
+      </div>
+
+      <div class="quote" style="text-align:center;font-weight:700;">
+        2026年、AIコパイロットからAIコワーカーへ。<br>
+        その転換点に、Qwen3.6 という名の符号が刻まれている。
+      </div>
+    </div>
+
+    <div class="pager">
+      <a href="pros-cons.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ⑧ メリデメ</span></span>
+      </a>
+      <a href="corrections.html" class="pager-next">
+        <span><span class="lbl">重要資料</span><span class="ttl">⚠ 訂正一覧 →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

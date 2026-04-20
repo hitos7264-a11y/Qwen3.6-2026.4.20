@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>⑤ アーキテクチャの核心 | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header"><div class="nav-drawer-title">目次</div><button id="navClose" class="icon-btn" type="button">✕</button></div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャ</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコア</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukong/HW</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリデメ</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>CORE ARCHITECTURE</span>
+      <h1 class="hero-title">⑤ <span class="grad">アーキテクチャ</span><br>見えないエンジン</h1>
+      <p class="hero-sub">ハイブリッド・リニアアテンションと Gated DeltaNet が 1M コンテキストを成立させた。12:1スパースと Always-on CoT の「内部経済学」に踏み込みます。</p>
+    </section>
+
+    <!-- 第9章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">見えないエンジン ―「ハイブリッド・リニアアテンション」が1Mコンテキストを成立させた</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        100万トークンの巨大な窓口は、単に「大きいから便利」ではない。その背後では、計算量の物理的な壁を突き破るための<b>アーキテクチャ革命</b>が起きている。それが「ハイブリッド・リニアアテンション（Hybrid Linear Attention）」だ。
+      </p>
+
+      <div class="callout glossary">
+        <div class="callout-head">🔤 前提：Transformer の「二次の壁」</div>
+        従来のTransformer（2017年に登場した現代LLMの背骨）は、<b>セルフアテンション</b>を中心に据える。これは文中のすべての単語ペアについて関係性スコアを計算するため、扱う長さが N 倍になるとコストは <b>N²倍</b>に膨張する。100万トークンを標準運用するには致命的な障害。
+      </div>
+
+      <h3 class="sub-heading">線形アテンションとのハイブリッド化</h3>
+      <p>
+        そこでアリババは、注意機構の一部を「線形アテンション（Linear Attention）」──長さNに対して計算量がNに比例する軽量方式に置き換えた。さらにそれを全層に採用するのではなく、従来型のフル注意機構（GQA：グループ化クエリ注意）と交互に織り込む<b>「ハイブリッド」構成</b>にしている。
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：層数と繰り返し回数</div>
+        原稿は「48層、4層ごとに1層フル注意 + 3層線形、1:3を12回繰り返す」としていたが、これは
+        <span class="strike">Qwen3-Next 80B-A3B の仕様</span>。
+        Qwen3.6-35B-A3B の公式 HF モデルカード記載の仕様は
+        <span class="correct-mark">Number of Layers: 40 ／ Pattern: 10 × (3 × DeltaNet → MoE + 1 × Attention)</span>。
+        つまり <b>4層ブロックを10回繰り返す全40層構造</b>。比率 3:1 は世代共通。
+      </div>
+
+      <div class="callout info">
+        <div class="callout-head">💡 ブロック構造を図式化すると</div>
+        <pre>Block (×10 times):
+  [DeltaNet → MoE]
+  [DeltaNet → MoE]
+  [DeltaNet → MoE]
+  [Full Attention (GQA)]
+
+Total: 4 layers × 10 blocks = <b>40 layers</b>
+(線形:フル = 3:1)</pre>
+      </div>
+
+      <h3 class="sub-heading">Gated DeltaNet の役割</h3>
+      <p>
+        線形部分は特に「Gated DeltaNet」と呼ばれる改良型機構が使われている。Gated DeltaNet は、<b>過去情報の圧縮と選択的忘却をゲート（門）で制御する仕組み</b>で、長文の中でも重要な情報だけを効率よく残せるようチューニングされている。
+      </p>
+
+      <ul class="feat-list">
+        <li><b>Full Attention（10層）</b>：全長のどこにでも精密な視線を送れる層。文脈の「骨格」を掴む。</li>
+        <li><b>Gated DeltaNet（30層）</b>：計算コストの安い線形注意で大量の背景情報を流す層。</li>
+        <li><b>MoE Expert層</b>：トークン毎に数個の専門家を選んで実際の計算を担当。</li>
+      </ul>
+
+      <div class="quote">
+        要するに「フル注意」で骨格を掴み、「線形注意」で背景を流し、「MoEエキスパート」で計算を省く──三段階の役割分担で、1Mを現実的コストで成立させている。
+      </div>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ 結果</div>
+        この分業の結果として得られるのが、<b>100万トークンを一括で読みながら応答速度158トークン/秒</b>という、一見すると物理法則を疑いたくなるようなパフォーマンスだ。
+      </div>
+    </div>
+
+    <!-- 第10章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 10</div>
+      <div class="chapter-title">12:1スパース性と Always-on CoT の内部経済学 ― なぜ3Bアクティブが GPT-5.2 に迫れるのか</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        「総35B / アクティブ3B」──この <b>12:1</b> という比率がどれほど攻撃的で、どれほど前例のない設計選択であるかを押さえておきたい。
+      </p>
+
+      <h3 class="sub-heading">業界のMoE設計トレンドとの比較</h3>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>モデル</th><th>総 / アクティブ</th><th>比率</th></tr></thead>
+          <tbody>
+            <tr><td>Gemma 4 26B A4B</td><td>26B / 4B</td><td class="num">約6.5 : 1</td></tr>
+            <tr class="highlight"><td>Qwen 3.6-35B-A3B</td><td>35B / 3B</td><td class="num">約11.7 : 1</td></tr>
+            <tr><td>Qwen3-Next 80B-A3B</td><td>80B / 3B</td><td class="num">約27 : 1</td></tr>
+            <tr><td>Kimi K2</td><td>1T / 32B</td><td class="num">約31 : 1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：「12対1が最も極端の一つ」は過大評価</div>
+        原稿は「Qwen3.6-35B-A3Bの12対1は、公開されているMoEの中で最も極端なスパース比率の一つ」としていたが、
+        <span class="correct-mark">同じアリババの Qwen3-Next-80B-A3B（27:1）、Kimi K2（31:1）</span>など、
+        12:1を上回るスパース比率のオープンMoEは複数存在する。
+        「オープンウェイトMoEとしてはかなりスパースな部類」程度が妥当な評価。
+      </div>
+
+      <h3 class="sub-heading">なぜ3Bで35B相当の性能が出るのか</h3>
+      <p>
+        答えは<b>エキスパート（専門家）の役割分担の深さ</b>にある。MoE では、入力トークンごとに「ルーター」と呼ばれる小さな振り分け器が、多数のエキスパートの中から最も適切な数個を選び出し、そのエキスパートだけを計算に使う。エキスパートが相互にきちんと役割分担できるよう学習されていれば、総パラメータが大きくても、実際に動く経路は細く保てる。
+      </p>
+
+      <p>
+        アリババはこのルーティング品質を段階的に洗練させてきた歴史がある。Qwen3-Next → Qwen3.5 → Qwen3.6 と世代を重ねる中で、エキスパート間の機能分化を徹底的に研ぎ澄ました。結果として、トークンあたり3Bしか動かさないのに35B分の「知識の奥行き」が効いてくる逆転劇が成立している。
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">総パラメータ</div><div class="stat-value">35B</div></div>
+        <div class="stat-card"><div class="stat-label">アクティブ</div><div class="stat-value">3B</div></div>
+        <div class="stat-card"><div class="stat-label">活性化率</div><div class="stat-value">8.6%</div></div>
+        <div class="stat-card"><div class="stat-label">SWE-V 対 Gemma</div><div class="stat-value">+21pt</div></div>
+      </div>
+
+      <h3 class="sub-heading">Always-on CoT の経済学</h3>
+      <p>
+        これに掛け合わされるのが Always-on Chain-of-Thought である。ただし繰り返し注意したい点として──
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：「切替ボタンを廃止」は不正確</div>
+        「このトグルそのものを廃止し」という表現は厳密には誤り。Qwen3.6-Plus にも
+        <span class="correct-mark"><code>preserve_thinking</code> パラメータやモード指定の制御インターフェースは残されている</span>。
+        「制御の抽象度が上がった」のが正確。
+      </div>
+
+      <h3 class="sub-heading">preserve_thinking によるコスト最適化</h3>
+      <p>
+        常に思考プロセスを展開するということは、当然ながらトークン消費量が増える。しかしアリババは、新設API パラメータ <code>preserve_thinking</code> を導入することで、この問題への独自解法を示した。
+      </p>
+
+      <div class="callout info">
+        <div class="callout-head">💡 preserve_thinking の仕組み</div>
+        マルチターン会話（複数回のやりとり）のなかで、過去の思考トレースをそのまま次のターンへ引き継ぐ設定。
+        エージェントがツール呼び出しと再推論を往復するような長期タスクにおいて、<b>同じ推論を何度も繰り返さずに済む</b>ため、結果として総トークン消費量はむしろ減る方向に働く。
+      </div>
+
+      <div class="quote">
+        常時思考と思考保持をワンセットで組み合わせることで、「深く考えるが、無駄には考えない」という繊細なバランスを取りに行っている。
+      </div>
+
+      <h3 class="sub-heading">技術革新の組み合わせマトリクス</h3>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>技術</th><th>解決する課題</th><th>効果</th></tr></thead>
+          <tbody>
+            <tr><td>Hybrid Linear Attention</td><td>N²問題</td><td>1Mを現実コストで運用</td></tr>
+            <tr><td>Gated DeltaNet</td><td>長文での情報保持</td><td>重要情報だけ残す</td></tr>
+            <tr><td>MoE 12:1</td><td>計算コスト vs 知識量</td><td>3Bで35B級に匹敵</td></tr>
+            <tr><td>Always-on CoT</td><td>推論深度の自動調整</td><td>過剰思考の抑制</td></tr>
+            <tr><td>preserve_thinking</td><td>エージェントの連続性</td><td>再計算を削減</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ 内部経済学のまとめ</div>
+        これら5つの技術革新が組み合わさることで、Qwen3.6 は「1Mコンテキスト × 3Bアクティブ × $0.276」という、それぞれ単独でも業界を揺さぶれる数字を<b>同時成立させている</b>。
+      </div>
+    </div>
+
+    <div class="pager">
+      <a href="meaning.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ④ 意味</span></span>
+      </a>
+      <a href="realworld.html" class="pager-next">
+        <span><span class="lbl">次の章</span><span class="ttl">⑥ 実世界スコア →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

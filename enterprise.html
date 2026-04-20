@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>⑦ Wukong とハードウェア包囲網 | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header"><div class="nav-drawer-title">目次</div><button id="navClose" class="icon-btn" type="button">✕</button></div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャ</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコア</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukong/HW</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリデメ</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>ENTERPRISE & HARDWARE</span>
+      <h1 class="hero-title">⑦ <span class="grad">Wukong</span>と<br>ハードウェア包囲網</h1>
+      <p class="hero-sub">3月17日に先行発表されたエンタープライズ基盤「悟空」。AMD Day 0、Apple Silicon、20種超の量子化バリアント ― Llama エコシステムを静かに侵食するハード対応の全景。</p>
+    </section>
+
+    <!-- 第14章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 14</div>
+      <div class="chapter-title">Wukong（悟空）と「capability loop」 ― アリババのエンタープライズ覇権戦略</div>
+    </div>
+
+    <div class="body-text">
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：Wukong の発表日は「4月2日」ではなく「3月17日」</div>
+        原稿は「アリババは 2026年4月2日に Wukong を正式発表した」と繰り返し記述していたが、
+        Wukong が正式発表されたのは
+        <span class="correct-mark">2026年3月17日（火）</span>。
+        同日、アリババは組織再編（Alibaba Token Hub〈ATH〉新設）の翌日として、
+        DingTalk連携のエンタープライズ向けAIエージェント基盤Wukongを招待制ベータで公開した。
+        <br><br>
+        補足：ファイルが「4月2日」としたのは、Qwen3.6-Plus 本体の OpenRouter 公開日（2026年4月2日）との混同。
+        両イベントは約2週間ずれており、<b>Wukong はむしろ Qwen3.6-Plus リリースの半月前に先行発表された既存プラットフォーム</b>であり、後から Qwen3.6-Plus を頭脳として統合した、というのが正しい時系列。
+      </div>
+
+      <h3 class="sub-heading">Wukong の設計思想</h3>
+      <p class="lead">
+        Wukong（悟空）は『西遊記』に登場する孫悟空に由来する、アリババのエンタープライズ業務自動化基盤である。単一のAIモデルを提供するのではなく、<b>複数のAIエージェントをオーケストレーション</b>（編成・協調動作）させることで、企業内の複雑な業務プロセス全体を自律化する。
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>対象業務</th><th>従来</th><th>Wukong</th></tr></thead>
+          <tbody>
+            <tr><td>経理</td><td>人手 + 複数SaaS</td><td>エージェント群が分担</td></tr>
+            <tr><td>カスタマーサポート</td><td>オペレーター中心</td><td>Qwen3.6-Plus が頭脳</td></tr>
+            <tr><td>マーケティング</td><td>複数ツール連携</td><td>統一プラットフォーム</td></tr>
+            <tr><td>開発</td><td>手動CI/CD</td><td>GUIエージェント連携</td></tr>
+            <tr><td>在庫管理 / 棚卸し</td><td>人手検査</td><td>画像解析エージェント</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">capability loop（能力の循環）</h3>
+      <p>
+        Wukong の設計を貫く哲学が「capability loop」という概念である。原稿の用語でいえば「認識→推論→行動」の単一ワークフローに対応するが、アリババが強調するのは、<b>このループが一回転で終わらず、行動の結果を再び認識として取り込み、次の推論・行動へと絶え間なく連鎖していく</b>点だ。
+      </p>
+
+      <div class="callout info">
+        <div class="callout-head">💡 capability loopの実例（開発業務）</div>
+        コードを書く →実行する → エラーを読み取る → 修正する → テストを通す → デプロイする<br>
+        ──このすべてを<b>一つのループ</b>として回し続ける仕組み。従来の「AIは一回出力したら終わり、人間が次を与える」という静的なパラダイムを破る。
+      </div>
+
+      <p>
+        Qwen3.6-Plus はこのループを単一モデルの内部で完結させられる初のフラッグシップとして位置づけられており、だからこそ「Real World Agent」という大仰な看板を掲げられる。また、アリババが「Qwen App」と呼ぶコンシューマー向けAIアプリケーションの背骨にもこの Wukong-Qwen3.6-Plus の組み合わせが配置されており、同社は自社の全AI体験を段階的に Qwen3.6 シリーズへ寄せていく方針を明確にしている。
+      </p>
+    </div>
+
+    <!-- 第15章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 15</div>
+      <div class="chapter-title">民生GPU・AMD・Apple Silicon ― ハードウェア包囲網の完成</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        Qwen 3.6-35B-A3B のハードウェア対応状況は、2026年4月時点ではるかに広範囲に広がっている。このハードウェア包囲網の広がりこそが、<b>Meta が築いてきた Llama エコシステムの地位を Qwen が実質的に奪おうとしているプロセス</b>の、最も目に見える部分である。
+      </p>
+
+      <h3 class="sub-heading">AMD による Day 0 サポートの意味</h3>
+      <div class="callout fact">
+        <div class="callout-head">✅ Day 0 サポートとは</div>
+        新モデルがリリースされたその日のうちに公式対応が発表されることを指す業界用語。
+        AMDは2026年4月16日のQwen3.6-35B-A3Bリリースと同時に、下記 GPU 全てでの動作検証を完了した。
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>AMD GPU</th><th>HBM</th><th>対応内容</th></tr></thead>
+          <tbody>
+            <tr><td>Instinct MI300X</td><td class="num">192GB</td><td>vLLM / SGLang</td></tr>
+            <tr><td>Instinct MI325X</td><td class="num">—</td><td>ROCm 7.0 最適化</td></tr>
+            <tr><td>Instinct MI350X</td><td class="num">—</td><td>同上</td></tr>
+            <tr><td>Instinct MI355X</td><td class="num">288GB HBM3E</td><td>FP8量子化版公式提供</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        さらに、<b>FP8（8ビット浮動小数点形式）量子化版「Qwen3.6-35B-A3B-FP8」</b>を同時に提供し、EAGLE投機的デコーディング（AIが先回りして「次にこう答えるだろう」と予測することで生成速度を数倍に引き上げる最先端技術）にも対応した。これは、NVIDIA の H100 や H200 以外の選択肢を探している企業、あるいは米中摩擦下で先端GPUの輸出規制に苦しむ中国国内企業にとって<b>福音</b>となる発表である。
+      </p>
+
+      <h3 class="sub-heading">Apple Silicon 対応</h3>
+      <p>
+        コミュニティ発の Unsloth Q4_K_S GGUF を使うと、ファイルサイズは約20.9GBに収まる。
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>機器</th><th>RAM</th><th>実測スループット</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>MacBook Pro M3 Max</td><td class="num">64GB</td><td class="num">35〜50 tok/s</td></tr>
+            <tr><td>Mac Mini（最小構成）</td><td class="num">16GB</td><td>動作報告あり</td></tr>
+            <tr><td>RTX 3090 / 4090</td><td class="num">24GB</td><td class="num">75〜120 tok/s</td></tr>
+            <tr><td>デュアルV100</td><td>—</td><td class="num">75〜100 tok/s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="quote">
+        「本格コーディングエージェントを、追加投資ゼロの手元のMacで24時間365日走らせられる」──少し前までは夢物語だった環境が、2026年4月に一気に現実化した。
+      </div>
+
+      <h3 class="sub-heading">ローカルランタイムの即時対応</h3>
+      <p>llama.cpp、LM Studio、Ollamaといったローカル LLM ランタイムの側でも即座に対応が進んだ。</p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：量子化バリアントは「20種類以上」</div>
+        原稿の「リリース後24時間でコミュニティ量子化版が10種類以上出回った」は過少。
+        2026年4月16日のリリース当日〜翌日にかけて、
+        <span class="correct-mark">Unsloth / Bartowski / mlx-community などから 20種類以上の量子化バリアント（GGUF / MLX / AWQ / FP8 等）</span>
+        が公開されたことが Hugging Face のリポジトリ履歴から確認できる。
+      </div>
+
+      <h3 class="sub-heading">ハードウェア包囲網の全景</h3>
+      <ul class="feat-list num">
+        <li><b>NVIDIA</b>：H100/H200（FP16）、A100（INT8）、RTX 3090/4090（4bit）</li>
+        <li><b>AMD</b>：Instinct MI300X/325X/350X/355X（Day 0対応、FP8版あり）</li>
+        <li><b>Apple Silicon</b>：M1/M2/M3、MLXフォーマット公式提供</li>
+        <li><b>Intel</b>：GPU/CPUでも準公式対応が進行中</li>
+        <li><b>ランタイム</b>：vLLM / SGLang / llama.cpp / LM Studio / Ollama</li>
+        <li><b>量子化</b>：Unsloth / Bartowski / mlx-community ほか20種超</li>
+      </ul>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ 結論</div>
+        異なるハードウェア系統で公式／準公式の最適化が揃っていることは、
+        <b>ベンダーロックイン（特定企業の製品に縛られる状態）からの脱出</b>を現実にする。
+        Meta の Llama が2023〜25年に築いた「オープンの基軸通貨」の座を、Qwen 3.6 はハードの側からも静かに侵食している。
+      </div>
+    </div>
+
+    <div class="pager">
+      <a href="realworld.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ⑥ 実世界スコア</span></span>
+      </a>
+      <a href="pros-cons.html" class="pager-next">
+        <span><span class="lbl">次の章</span><span class="ttl">⑧ メリデメ →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

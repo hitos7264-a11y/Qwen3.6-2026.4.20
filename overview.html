@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>① 概要 ― 三位一体のリリース | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span>
+        <span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header">
+      <div class="nav-drawer-title">目次 / Contents</div>
+      <button id="navClose" class="icon-btn" type="button">✕</button>
+    </div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要 / 三位一体のリリース</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック / Plusと35B-A3B</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性 / ベンチ戦線</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味 / 戦略転換と地政学</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャの核心</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコアと1.4兆トークン</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukongとハードウェア包囲網</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリット / デメリット</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>$53Bの一手と未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック / 訂正一覧</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>TOPIC 01 / OVERVIEW</span>
+      <h1 class="hero-title">① <span class="grad">概要</span><br>三位一体のリリース</h1>
+      <p class="hero-sub">わずか2週間で連続砲撃のように投下されたQwen3.6シリーズ。その全体像を、Plus／35B-A3B の二本立てという設計思想まで一気に解きほぐします。</p>
+    </section>
+
+    <!-- 第1章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">Qwen 3.6とは何か ― 連続砲撃のように発表された「三位一体」のリリース</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        2026年の春、生成AIの世界地図はまたしても中国・杭州の巨大テック企業によって塗り替えられた。アリババ傘下のQwenチームが、3月末から4月中旬にかけてわずか2週間あまりの間に矢継ぎ早に投下した<b>「Qwen 3.6」シリーズ</b>は、単なるバージョンアップではなく、同社のAI事業の構造そのものを次のフェーズへ押し上げる、戦略的な節目の製品群である。
+      </p>
+
+      <p>
+        わずか2か月前の2026年2月にリリースされた Qwen 3.5 シリーズの熱がまだ冷めやらぬうちでの投下であり、業界の観測筋の間では「アリババはモデル更新のサイクルを四半期単位、あるいはそれ以下にまで短縮し切った」との評価が広まった。
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 原稿からの訂正：フロンティア対抗馬の筆頭モデル</div>
+        原稿は対抗馬として「OpenAIのGPT-5.4、Anthropicの <span class="strike">Claude Opus 4.6</span>、GoogleのGemini 3 Pro」を挙げていたが、<b>Qwen3.6-Plus 公式ブログの比較表</b>で実際に比較対象とされたフロンティアモデルは
+        <span class="correct-mark">Claude Opus 4.5 / GPT-5.2 / Gemini-3 Pro / Kimi-K2.5</span> の4モデル。
+        Opus 4.6 や GPT-5.4 は発表時点で既に存在していたが、公式ベンチマーク表の主要比較軸からは外されていた点を<b>むしろコミュニティから指摘されていた</b>経緯があるため、「なりふり構わぬ追撃の意思」の対抗馬として筆頭に挙げるモデル名としては不正確である。
+      </div>
+
+      <h3 class="sub-heading">三段階のロールアウト</h3>
+      <p>Qwen 3.6シリーズの登場は厳密には三段階のロールアウトを経ている。</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">STAGE 1 ― 2026年3月30〜31日</div>
+          <div class="timeline-title">Qwen3.6-Plus Preview（OpenRouter無料公開）</div>
+          <div class="timeline-desc">テキスト専用の先行公開版。API ID: <code>qwen/qwen3.6-plus-preview:free</code>。1,000,000トークンの巨大コンテキストと最大65,536トークンの出力枠を、公開時点から誰でもタダで叩けるという前代未聞のサービス形態で登場。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">STAGE 2 ― 2026年4月2日</div>
+          <div class="timeline-title">Qwen3.6-Plus 正式版（Alibaba Cloud Model Studio）</div>
+          <div class="timeline-desc">マルチモーダル機能（画像・動画・文書理解）を載せた完成形としてリリース。公式ブログは「Towards Real World Agents（真の実世界エージェントへ）」という副題を冠した。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">STAGE 3 ― 2026年4月16日</div>
+          <div class="timeline-title">オープンウェイト版 Qwen3.6-35B-A3B</div>
+          <div class="timeline-desc">Hugging Face / ModelScope / Ollama のライブラリに同時投入。Apache 2.0 ライセンスで商用利用可。ローカル実行・研究・二次配布すべてが自由に。</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">単独リリースではなく「三本柱」の一角</h3>
+      <p>
+        この連続リリースは単独で動いていたわけではない。ブルームバーグが注視していたのは、Qwen3.6-Plus がアリババが3日連続で立て続けに発表した3つのクローズドソース（非公開ウェイト）モデルの最後の一本だったという事実である。他の2つは次のとおり：
+      </p>
+
+      <ul class="feat-list num">
+        <li><b>Qwen3.6-Plus</b>：コーディング／エージェント特化の中核モデル（本稿の主役）。</li>
+        <li><b>Qwen3.5-Omni-Plus</b>：音声・画像・動画・テキストを一つのモデルで処理する全方位モーダル機。113言語の音声認識と36言語の音声生成、10時間超の連続音声処理能力を持つ。</li>
+        <li><b>画像生成プラットフォームの大型アップデート</b>：別系統の画像生成基盤の刷新。</li>
+      </ul>
+
+      <p>
+        つまり Qwen 3.6 の発表は、単独の製品発表ではなく、<b>AIの各領域を「面」で押さえにいく三本柱戦略</b>の一翼を成していた。こうした中、3月にアリババは社内ブランド体系を「Qwen（千問大模型）」に一本化する大規模リブランディングを行っており、Qwen 3.6 はその統一ブランドのもとで打ち出される初の本格フラッグシップでもあった。
+      </p>
+
+      <div class="callout info">
+        <div class="callout-head">💡 背景補足：Wukongは前倒しで発表されていた</div>
+        後章で詳述する通り、エンタープライズ統合基盤 <b>Wukong（悟空）</b>は Qwen3.6-Plus リリースの<b>半月前、2026年3月17日</b>に招待制ベータで先行発表されている。Qwen3.6-Plus と同日発表ではなく、「Wukong という器を先に用意し、後から Qwen3.6-Plus を頭脳として統合した」というのが正しい時系列。
+      </div>
+    </div>
+
+    <!-- 第2章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">「Plus」と「35B-A3B」の二本立てが意味する設計思想</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        Qwen 3.6 を理解する上で最も重要な構造的事実は、このモデルが「単一のAI」ではなく、<b>性格の異なる二つのモデルが互いを補完し合うデュアル構成</b>のプロダクトラインであるという点だ。
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Qwen3.6-Plus</th>
+              <th>Qwen3.6-35B-A3B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>形態</td><td>クローズド／ホステッド</td><td>オープンウェイト</td></tr>
+            <tr><td>ライセンス</td><td>API利用規約</td><td class="num">Apache 2.0</td></tr>
+            <tr><td>コンテキスト</td><td class="num">1,000,000</td><td class="num">262,144（最大1M拡張可）</td></tr>
+            <tr><td>出力上限</td><td class="num">65,536</td><td class="num">—</td></tr>
+            <tr><td>総パラメータ</td><td>非公開</td><td class="num">35B</td></tr>
+            <tr><td>アクティブ</td><td>非公開</td><td class="num">3B</td></tr>
+            <tr><td>マルチモーダル</td><td>◯（ネイティブ）</td><td>◯（ネイティブ）</td></tr>
+            <tr><td>思考モード切替</td><td>制御抽象度↑<br>（preserve_thinking 等）</td><td>thinking / non-thinking</td></tr>
+            <tr><td>想定ハード</td><td>Alibaba Cloud</td><td>RTX 3090/4090 / A100 / Mac / AMD</td></tr>
+            <tr><td>価格</td><td>$0.276〜</td><td class="num">無料（自己ホスト）</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">Plus ― 収益化フラッグシップ</h3>
+      <p>
+        Qwen3.6-Plus は Alibaba Cloud Model Studio を通じてのみアクセス可能で、<b>OpenAI互換エンドポイントと Anthropic互換エンドポイントの両方</b>を提供する。つまり、既存のChatGPTコードやClaude Code用のスクリプトをほぼそのまま流用してQwen3.6-Plus に向けられるという、極めて現実的な乗り換えやすさが設計されている。
+      </p>
+      <p>
+        コンテキストウィンドウはデフォルトで100万トークン、出力上限は6万5,536トークンとクラス最大級。マルチモーダル入力（画像、動画、UIスクリーンショット、スキャンPDFなどを含む文書）に対応し、<b>MCPネイティブ対応</b>、JSON形式の構造化ツールコール、並列ツールコール、スキーマ遵守の信頼性──といったエージェント開発必須の要素がすべて最初から組み込まれている。
+      </p>
+
+      <h3 class="sub-heading">35B-A3B ― オープン覇権装置</h3>
+      <p>
+        対して Qwen3.6-35B-A3B はまったく別の設計思想に立つ。こちらは Mixture-of-Experts（MoE、混合専門家モデル）アーキテクチャを採用しており、総パラメータ数350億のうち、<b>推論時に実際に活性化されるのはわずか30億パラメータのみ</b>という、極めてスパースで省電力な構造を持つ。
+      </p>
+      <p>
+        4bit量子化（Unsloth GGUF形式）を適用すれば <b>18〜20GBのVRAMで動作</b>するため、RTX 3090/4090単機や24GBメモリのMacでも実用速度で回せてしまう。しかもApache 2.0ライセンスのため、企業が自社製品に組み込んで商用展開しても一切問題ない。
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：Qwen3.5 系列ラインナップ</div>
+        原稿は「前世代として Qwen3.5-35B-A3B」を挙げていたが、
+        <span class="correct-mark">Qwen3.5 世代に 35B-A3B は存在しない</span>。
+        Qwen3.5 のオープンウェイト・ラインナップは <b>397B-A17B（フラッグシップ）／122B-A10B／Qwen3.5-Max／Qwen3.5-VL 系</b>。
+        Plus（クローズド）のバックボーンは 397B-A17B に相当。「35B-A3B」という区分は <b>Qwen3.6 世代で初登場</b>（2026年4月16日リリース）したサイズ帯である。
+      </div>
+
+      <h3 class="sub-heading">Android式の二階建て</h3>
+      <p>
+        この二本立てを俯瞰すると、アリババの意図が浮かび上がる。Plus は「支払能力のある企業から確実にクラウド売上を巻き上げる <b>収益エンジン</b>」として機能し、35B-A3B は「世界中の開発者・研究者・スタートアップに Qwen エコシステムをばら撒き、デファクトスタンダードの座を Meta の Llama から奪い取る <b>覇権装置</b>」として機能する。
+      </p>
+      <p>
+        両者の関係は、Android における Google の純正 Pixel（プレミアム・コントロール型）と AOSP（オープン・エコシステム型）の関係に近い。コーディングエージェント界隈ではすでに、OpenClaw、Claude Code、Cline、Qwen Code といった主要CLIが Qwen3.6 に標準対応しており、開発者は「まずは手元の 35B-A3B で試し、本番は Plus の API を呼ぶ」という自然なアップセル動線に誘導される構造が完成している。
+      </p>
+
+      <div class="quote">
+        「Qwen は単なるモデル発表を超えた、プロダクトラインとしての真の輪郭を獲得した。これこそが Qwen3.6 の構造的な強さだ。」
+      </div>
+    </div>
+
+    <div class="pager">
+      <a href="index.html" class="pager-prev">
+        <span><span class="lbl">戻る</span><span class="ttl">← トップ</span></span>
+      </a>
+      <a href="specs.html" class="pager-next">
+        <span><span class="lbl">次の章へ</span><span class="ttl">② スペック →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版 ― 公式一次ソース準拠</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

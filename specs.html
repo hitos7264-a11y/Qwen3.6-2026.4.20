@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>② スペック ― 1Mと3Bの衝撃 | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header">
+      <div class="nav-drawer-title">目次 / Contents</div>
+      <button id="navClose" class="icon-btn" type="button">✕</button>
+    </div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要 / 三位一体のリリース</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック / Plusと35B-A3B</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性 / ベンチ戦線</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味 / 戦略転換と地政学</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャの核心</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコアと1.4兆トークン</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukongとハードウェア包囲網</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリット / デメリット</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>$53Bの一手と未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック / 訂正一覧</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>TOPIC 02 / SPECIFICATIONS</span>
+      <h1 class="hero-title">② <span class="grad">スペック</span><br>1Mと3Bの衝撃</h1>
+      <p class="hero-sub">Qwen3.6-Plus の1Mコンテキストと思考保持機構／オープンウェイト版 35B-A3B の MoE 構造。「なぜ3Bアクティブで GPT-5.2 に迫れるのか」の技術的核心に踏み込みます。</p>
+    </section>
+
+    <!-- 第3章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">Qwen3.6-Plus の技術仕様 ― 1Mコンテキストと「思考保持」が再定義するエージェント基盤</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        スペック面から Qwen3.6-Plus を見ていくと、まず最初に目を奪われるのが、<b>デフォルトで100万トークンに達するコンテキストウィンドウ</b>である。
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：「262Kから一気に約4倍」ではない</div>
+        原稿は「Qwen3.5-Plus の 262K から一気に約4倍」としていたが、
+        <span class="correct-mark">先代 Qwen3.5-Plus はリリース当初からデフォルトで1Mコンテキスト</span>を備えていた。
+        ネイティブ262Kだったのは<b>オープンウェイト版の Qwen3.5系</b>（-27B 等）であり、ホステッドのPlusと混同している。
+        Qwen3.6-Plus の1Mは「前世代 Plus と同じ1Mを維持しつつ、ネイティブ対応の幅を広げた」と書くのが正確。
+      </div>
+
+      <h3 class="sub-heading">100万トークンが可能にするもの</h3>
+      <p>
+        100万トークンという枠は、中規模の GitHub リポジトリ全体、数百ページに及ぶ法務契約書束、数時間分の会議議事録と議事録音声テキストを一度にまとめてプロンプトに流し込んでも、なお余裕がある規模である。
+      </p>
+
+      <ul class="feat-list">
+        <li>中規模リポジトリ全体を <b>ワンショットで読み込み可能</b> ― チャンク分割RAGの複雑さが不要に。</li>
+        <li>出力上限65,536トークンで、大規模設計書の一気書き、巨大ソースのリファクタ提案が一発完結。</li>
+        <li>数時間分の会議議事録＋音声テキストをまとめて渡して要約・アクション抽出が可能。</li>
+        <li>数百ページの法務契約書束をワンプロンプトで比較分析。</li>
+      </ul>
+
+      <div class="callout glossary">
+        <div class="callout-head">🔤 100万トークンは日本語で何冊分？</div>
+        日本語の場合、1トークン ≒ 0.6〜0.9文字相当で、100万トークンは概ね<b>60〜90万字</b>。一般的な日本語単行本1冊が約10万字なので、<b>6〜9冊分</b>が妥当。
+        「単行本10冊分」は英語基準（1トークン ≒ 0.75ワード、単行本1冊 ≒ 75,000ワード）の換算であり、日本語読者向けとしてはやや過大表示。
+      </div>
+
+      <h3 class="sub-heading">「思考モード」の実像 ― 廃止ではなく抽象化</h3>
+      <p>
+        Qwen3.6-Plus は「Always-on Chain-of-Thought（常時思考連鎖）」をアーキテクチャ上の柱として据えている。
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：「切替を完全廃止」ではない</div>
+        原稿は「thinking / non-thinking モード切替は完全に廃止された」と書いていたが、公式ブログ仕様では
+        <span class="correct-mark"><code>preserve_thinking</code> パラメータ・モード指定は依然として残っている</span>。
+        つまり「すべてのプロンプトに対して強制的に思考連鎖を走らせる」という意味での切替廃止ではなく、<b>制御の抽象度が上がっただけ</b>で、ユーザー側からの思考制御インターフェース自体は撤廃されていない。
+      </div>
+
+      <p>
+        実装上のポイントは、モデル内部で「このタスクは軽いから思考を短く、重いから深く」という配分が自律的に行われている点だ。Qubridなど複数のベンチマーク環境での計測では、Qwen 3.6-Plus の平均応答時間はおよそ <b>13.9秒</b>で、Qwen 3.5-Plus の <b>39.1秒</b> から劇的に改善された。旧世代で悪名高かった「延々と思考し続けて答えが出てこない」過剰思考問題が解消され、ベンチマークのconsistency指標では<b>10.0点満点</b>、flaky test（不安定なテスト失敗）件数<b>ゼロ</b>という本番運用に耐える安定性が確認されている。
+      </p>
+
+      <h3 class="sub-heading">preserve_thinking という新パラメータ</h3>
+      <p>
+        エージェント開発者が最も注目すべきは、<code>preserve_thinking</code> という新たな API パラメータの導入だ。マルチターン会話の過去ターンで展開された「思考トレース」をすべて保持したまま次のターンに引き継げる仕組みで、従来のAPIでは思考内容がターンごとに捨てられていた課題を解決する。
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">TAU3-Bench</div>
+          <div class="stat-value">70.7</div>
+          <div class="stat-unit">長期エージェント計画</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">DeepPlanning</div>
+          <div class="stat-value">41.5</div>
+          <div class="stat-unit">多段計画</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">MCPMark</div>
+          <div class="stat-value">48.2</div>
+          <div class="stat-unit">MCPツール連携</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">平均応答時間</div>
+          <div class="stat-value">13.9s</div>
+          <div class="stat-unit">旧39.1sから短縮</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">ナレッジ・推論・マルチモーダルの主要スコア</h3>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">GPQA Diamond</span><span class="bench-score">90.4</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="90.4%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">MMLU-Pro</span><span class="bench-score">88.5</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="88.5%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">AIME25（※原稿は2026表記だったが公式は2025）</span><span class="bench-score">95.3</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="95.3%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">HMMT25（2月開催）</span><span class="bench-score">96.7</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="96.7%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">MMMU（マルチモーダル）</span><span class="bench-score">86.0</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="86.0%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">MathVision</span><span class="bench-score">88.0</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="88.0%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">OmniDocBench 1.5 ★世界首位</span><span class="bench-score">91.2</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="91.2%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">CountBench</span><span class="bench-score">97.6</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="97.6%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">VideoMME</span><span class="bench-score">87.8</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="87.8%"></div></div>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：ベンチマーク年次の表記ゆれ</div>
+        原稿の「AIME 2026」は<span class="correct-mark">AIME25（2025年のAIME、スコア95.3）</span>が正。
+        AIME 2026 のスコアは<b>オープンウェイト版 35B-A3B のコミュニティ投稿値で 92.7</b> として別途公表されているもので、Plus とは紐付かない。
+        HMMT の 96.7 は HMMT 2025（2月開催分）を指す。
+      </div>
+
+      <h3 class="sub-heading">スループットと価格（訂正反映版）</h3>
+      <p>
+        API の実効スループットは158トークン/秒前後と報告されている。価格面では、アリババクラウド中国リージョンで入力100万トークンあたり2人民元という極端な低価格帯から始まり、国際リージョンでは以下の通り：
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>帯域</th><th>入力 /1M</th><th>出力 /1M</th></tr>
+          </thead>
+          <tbody>
+            <tr class="highlight"><td>グローバル 0–256K</td><td class="num">$0.276</td><td class="num">$1.651</td></tr>
+            <tr><td>グローバル 256K–1M</td><td class="num">$1.101</td><td class="num">$6.602</td></tr>
+            <tr><td>中国 0–256K</td><td class="num">¥2 / 1M</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：価格は $0.29 ではなく $0.276、しかも段階課金</div>
+        原稿の「入力 $0.29／出力 $1.65」は<span class="correct-mark">$0.276 / $1.651</span> が正確な四捨五入。
+        さらに重大な欠落は、<b>256K〜1Mの長文帯では入力 $1.101 / 出力 $6.602 に跳ね上がる段階課金</b>という点である。
+        フルコンテキストを常用するユースケースでは、実効単価が4倍近くまで上がることに要注意。
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：Qwen Code OAuth 無料枠は2026/4/15に廃止済み</div>
+        原稿の「Qwen Code CLI 経由で OAuth ログインすれば1日1,000回の無料呼び出しが付与される」「恒常的な無料枠提供」は、
+        <span class="correct-mark">2026年4月13日に1日1,000回→100回へ縮小、4月15日をもって廃止</span>されている。
+        本稿の想定時点（4月20日）では「短命な導入キャンペーン」としての記述に訂正すべき。
+      </div>
+    </div>
+
+    <!-- 第4章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">オープンウェイト版 Qwen3.6-35B-A3B の深層 ― 「3Bアクティブ」が切り開く新たな常識</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        Qwen3.6-35B-A3B の技術的ディテールに踏み込むと、そこには MoE アーキテクチャの成熟を物語る緻密な設計が姿を現す。総パラメータ <b>350億</b>に対しアクティブは<b>30億</b>という、実効活性化率わずか<b>8.6%</b>という極端なスパース性が最大の特徴だ。
+      </p>
+
+      <h3 class="sub-heading">「小さな活性化量で大型モデルを凌駕」</h3>
+      <p>
+        Qwenチームが公式ブログで強調するのは、「この小さな活性化量で、Qwen3.5-27B や Gemma4-31B といったはるかに大型の稠密モデルをも凌駕する」というパフォーマンスの達成である。
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>ベンチマーク</th><th>35B-A3B</th><th>Gemma4-31B</th></tr>
+          </thead>
+          <tbody>
+            <tr class="highlight"><td>Terminal-Bench 2.0</td><td class="num">51.5</td><td class="num">42.9</td></tr>
+            <tr><td>SWE-bench Pro</td><td class="num">49.5</td><td class="num">35.7</td></tr>
+            <tr><td>SWE-bench Verified</td><td class="num">73.4</td><td class="num">—</td></tr>
+            <tr><td>MCPMark</td><td class="num">37.0</td><td class="num">18.1</td></tr>
+            <tr class="highlight"><td>RealWorldQA</td><td class="num">85.3</td><td class="num">70.3</td></tr>
+            <tr><td>MMMU</td><td class="num">81.7</td><td class="num">—</td></tr>
+            <tr><td>MathVista (mini)</td><td class="num">86.4</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：RealWorldQA の比較相手は Sonnet ではない</div>
+        原稿は「35B-A3B の 85.3 が <span class="strike">Claude Sonnet 4.5 の 70.3</span> を上回る」としていたが、
+        公式 35B-A3B 比較表で RealWorldQA 70.3 点と対比されているのは
+        <span class="correct-mark">Gemma4-31B（オープンウェイト）</span>である。
+        クローズドモデル逆転エピソードとして語るのは、公式表の構造上は<b>対象モデルの取り違え</b>であり、Sonnet 4.5 とのRealWorldQAの70.3点という数値は裏付け無し。
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：SWE-bench Multilingual と TAU3-Bench の入れ替え</div>
+        原稿の「SWE-bench Multilingual 67.2点」は、<span class="correct-mark">TAU3-Bench の 67.2 点</span>との取り違えの可能性が高い。
+        公式Hugging Face モデルカードでは、35B-A3B の Coding Agent セクションの SWE-bench Multilingual と TAU3-Bench のスコアが入れ替わって記載されていた箇所がある。数値を引用する際は公式モデルカードの最新版を直接確認のこと。
+      </div>
+
+      <h3 class="sub-heading">ネイティブマルチモーダル＋切替可能な思考</h3>
+      <p>
+        Qwen3.6-35B-A3B はネイティブマルチモーダル機能を標準搭載しており、別途ビジョンエンコーダを外付けする必要がない。また「thinkingモード」と「non-thinkingモード」の両方を切り替えて使える仕様になっており、Plus版とは逆に、用途に応じて思考深度を制御できる柔軟性が残されている。
+      </p>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：コンテキストは「262K（最大1M拡張可）」</div>
+        原稿の「コンテキストウィンドウは 262,144 トークン」という単独記載には欠落がある。
+        公式 Hugging Face モデルカードの仕様は
+        <span class="correct-mark">"262,144 natively and extensible up to 1,010,000 tokens"</span>
+        ＝ YaRN 等で約1Mまで拡張可能と明記されている。
+      </div>
+
+      <h3 class="sub-heading">ハードウェア要件の現実性</h3>
+      <p>このモデルが「オープンソースコーディングの新標準」と呼ばれる所以は、ハードウェア要件の現実性にある。</p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>精度</th><th>VRAM</th><th>ターゲット</th></tr></thead>
+          <tbody>
+            <tr><td>FP16</td><td class="num">約72GB</td><td>A100 × 2 / H100級</td></tr>
+            <tr><td>INT8</td><td class="num">約36GB</td><td>A100 40GB × 1</td></tr>
+            <tr class="highlight"><td>4bit GGUF（Unsloth）</td><td class="num">18–20GB</td><td>RTX 3090 / 4090 / Mac 24GB</td></tr>
+            <tr><td>FP8（AMD公式）</td><td class="num">—</td><td>MI300X / MI355X 対応</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Reddit 上の実機レポートでは、デュアル V100 や RTX 3090 環境で 75〜100トークン/秒のスループットが確認されており、「ローカルで本格コーディングエージェントを回せる史上初のモデル」という評価が定着しつつある。RTX 4090 では <b>120トークン/秒を超える</b>速度も報告されている。
+      </p>
+
+      <h3 class="sub-heading">実装パス</h3>
+      <ul class="feat-list">
+        <li><code>ollama run qwen3.6:35b-a3b</code> ワンコマンドで即時起動。</li>
+        <li>Unsloth 経由の GGUF で最速推論。</li>
+        <li>SGLang で本番グレードの高スループット配信。</li>
+        <li>標準的な Hugging Face Transformers で動作。</li>
+        <li>OpenClaw / Claude Code / Qwen Code / Cline / Aider / Continue など主要CLI即日対応。</li>
+        <li>リリース後24時間で <b>20種類以上</b>のコミュニティ量子化版（GGUF / MLX / AWQ / FP8 等）が流通。</li>
+      </ul>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ まとめ：3Bが作った新常識</div>
+        「オープンで、Apache 2.0 で、商用可で、民生機で動くマルチモーダル MoE」──このポジションを、この仕様と性能で同時に満たすモデルは、<b>2026年4月時点で Qwen3.6-35B-A3B 以外に存在しない</b>。
+      </div>
+    </div>
+
+    <div class="pager">
+      <a href="overview.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ① 概要</span></span>
+      </a>
+      <a href="benchmarks.html" class="pager-next">
+        <span><span class="lbl">次の章</span><span class="ttl">③ 競争優位性 →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

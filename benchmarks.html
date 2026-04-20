@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>③ 競争優位性 ― ベンチ戦線 | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header"><div class="nav-drawer-title">目次</div><button id="navClose" class="icon-btn" type="button">✕</button></div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャ</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコア</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukong/HW</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリデメ</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>TOPIC 03 / COMPETITIVE EDGE</span>
+      <h1 class="hero-title">③ <span class="grad">競争優位性</span><br>ベンチマーク戦線</h1>
+      <p class="hero-sub">Qwen3.6-Plus が各領域で見せる「首位／僅差2位／やや後塵」のポジション。公式比較表の相手は Claude Opus 4.5 / GPT-5.2 / Gemini-3 Pro / Kimi-K2.5 です（※原稿の誤記を全訂正）。</p>
+    </section>
+
+    <!-- 第5章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">ベンチマーク戦線 ― Claude Opus 4.5・GPT-5.2・Gemini-3 Pro に食らいつく「ほぼ互角の挑戦者」</div>
+    </div>
+
+    <div class="body-text">
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：公式比較表のフロンティア4モデル</div>
+        原稿が多用した「Claude Opus 4.6」「GPT-5.4」は公式比較表に含まれておらず、正しい比較軸は
+        <span class="correct-mark">Claude Opus 4.5 / GPT-5.2 / Gemini-3 Pro / Kimi-K2.5</span>。
+        本章以降のスコア比較は、すべてこの公式4モデルを基準として訂正しています。
+      </div>
+
+      <h3 class="sub-heading">SWE-bench Verified ― 2ポイント差の僅差</h3>
+      <p>
+        ソフトウェアエンジニアリング系の主戦場である SWE-bench Verified では、<b>Claude Opus 4.5 が 80.9点</b>で首位、<b>Qwen3.6-Plus が 78.8点</b>と約2ポイント差で追随する構図。業界観測者が「Qwen とフロンティアモデルの差はいまだかつてなく狭まった」と驚愕する数字である。
+      </p>
+
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Claude Opus 4.5</span><span class="bench-score">80.9</span></div>
+        <div class="bench-bar"><div class="bench-fill rival" data-width="80.9%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Qwen3.6-Plus</span><span class="bench-score">78.8</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="78.8%"></div></div>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：Claude側の数値は「80.8」ではなく「80.9」</div>
+        原稿は「Claude Opus 4.6 80.8 対 Qwen 78.8、わずか2ポイント差」としていたが、
+        公式比較表の相手は <span class="correct-mark">Claude Opus 4.5 の 80.9点</span>。
+        <b>80.8</b> は第三者サイト（digitalapplied 等）が別途集計した Opus 4.6 の値。
+      </div>
+
+      <h3 class="sub-heading">SWE-bench Pro ― 「大きく上回る」は誤り</h3>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：Opus 4.5 の SWE-bench Pro は 45.9 ではなく 約57</div>
+        原稿は「Claude Opus 4.5 の 45.9 点を大きく上回る」としていたが、
+        <span class="correct-mark">Opus 4.5 の SWE-bench Pro は公式比較表で 59.3、TokenCost集計で 57.1</span>。
+        したがって Qwen3.6-Plus の 56.6 点は Opus 4.5 を「大きく上回る」のではなく、<b>むしろやや下回る水準</b>。
+      </div>
+
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Claude Opus 4.5（公式表値）</span><span class="bench-score">59.3</span></div>
+        <div class="bench-bar"><div class="bench-fill rival" data-width="59.3%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">GPT-5.2</span><span class="bench-score">57.7</span></div>
+        <div class="bench-bar"><div class="bench-fill rival2" data-width="57.7%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Qwen3.6-Plus</span><span class="bench-score">56.6</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="56.6%"></div></div>
+      </div>
+
+      <h3 class="sub-heading">Qwen3.6-Plus が明確な首位に立つ領域</h3>
+      <p>Qwen3.6-Plus が明確な首位に立つ領域もある。</p>
+
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">OmniDocBench 1.5 ★業界首位</span><span class="bench-score">91.2</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="91.2%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">RealWorldQA ★リード</span><span class="bench-score">85.4</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="85.4%"></div></div>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：RealWorldQA のスコアと比較相手</div>
+        原稿は「85.3 対 Claude Sonnet 4.5 70.3」としていたが、
+        <span class="correct-mark">Qwen3.6-Plus の公式スコアは 85.4</span>。
+        公式ブログで比較相手として掲載されているのは <b>Claude 4.5 Opus（Sonnet ではない）の 77.0</b>。
+        「Claude Sonnet 4.5 = 70.3」という具体値の裏付けは公式資料・第三者ベンチマークのいずれにも見当たらない。
+      </div>
+
+      <h3 class="sub-heading">総合マルチモーダル理解 ― 僅差の追随</h3>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Gemini 3 Pro（MMMU）</span><span class="bench-score">87.2</span></div>
+        <div class="bench-bar"><div class="bench-fill rival" data-width="87.2%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Qwen3.6-Plus（MMMU）</span><span class="bench-score">86.0</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="86.0%"></div></div>
+      </div>
+
+      <h3 class="sub-heading">エージェント系 ― 明確な弱点領域</h3>
+      <p>Terminal-Bench 2.0 ではフロンティア勢と差が最も広い。Claudeが長年にわたってコーディングエージェントのツール連携・Bashオペレーション精度を重点的に磨いてきた結果が効いている。</p>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Claude Opus 4.5（エージェント枠）</span><span class="bench-score">74.7</span></div>
+        <div class="bench-bar"><div class="bench-fill rival" data-width="74.7%"></div></div>
+      </div>
+      <div class="bench">
+        <div class="bench-row"><span class="bench-name">Qwen3.6-Plus</span><span class="bench-score">61.6</span></div>
+        <div class="bench-bar"><div class="bench-fill" data-width="61.6%"></div></div>
+      </div>
+
+      <h3 class="sub-heading">数学・科学 ― フロンティアの一角</h3>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">GPQA Diamond</div><div class="stat-value">90.4</div><div class="stat-unit">大学院レベル科学QA</div></div>
+        <div class="stat-card"><div class="stat-label">MMLU-Pro</div><div class="stat-value">88.5</div><div class="stat-unit">総合知識</div></div>
+        <div class="stat-card"><div class="stat-label">AIME25</div><div class="stat-value">95.3</div><div class="stat-unit">※原稿は2026表記の誤</div></div>
+        <div class="stat-card"><div class="stat-label">HMMT25</div><div class="stat-value">96.7</div><div class="stat-unit">数学トーナメント</div></div>
+      </div>
+
+      <h3 class="sub-heading">35B-A3B も「オープンで衝撃」</h3>
+      <p>オープンウェイト版の 35B-A3B に目を移すと、30億アクティブパラメータという極端に軽量な構成にもかかわらず<b>SWE-bench Verified で 73.4点</b>を叩き出している。RealWorldQA の 85.3 は、公式比較表では Gemma4-31B の 70.3 を大きく上回る数値として掲載されている（原稿の「Claude Sonnet 4.5」との対比は誤り）。</p>
+
+      <h3 class="sub-heading">冷静な視点 ― 26.5%の捏造率</h3>
+      <div class="callout warn">
+        <div class="callout-head">⚠️ 忘れてはいけない弱点</div>
+        独立系第三者テスト（BridgeBench）では、Qwen3.6-Plus について「API仕様やプログラミング言語の挙動に関する主張で<b>26.5%の高い捏造率</b>」が計測されている。安全性ベンチの素点も <b>82.4点</b>で、Anthropic・OpenAIが長年磨いてきた整列（alignment）の厚みに追いついていない。
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：安全性スコアの帰属</div>
+        BridgeBench Security Bench v1 で <b>87.2</b> を記録しているのは
+        <span class="correct-mark">Claude Sonnet 4.5</span>（Opus 4.6 のスコアではない）。
+        同じく <b>87.3</b> は <span class="correct-mark">GPT-5.4 Mini</span>（フルモデルではなくミニ版）。
+        Opus 4.6 の BridgeBench 公開スコアは公表ベースで 90 台半ばと別数値。
+      </div>
+    </div>
+
+    <!-- 第6章 -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">価格・速度・開発者体験 ― 「一桁違う安さ」が業界の経済学を書き換える</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        もし Qwen3.6-Plus がベンチマーク上でフロンティアに肉薄しているだけなら、業界を揺るがすほどのインパクトにはならなかった。<b>性能水準に対して、料金が文字通り一桁違う</b>という経済学的破壊力こそが本丸である。
+      </p>
+
+      <h3 class="sub-heading">1Mトークンあたりの単価比較</h3>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>モデル</th><th>入力 $/1M</th><th>出力 $/1M</th><th>vs Qwen 倍率</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>Qwen3.6-Plus (0-256K)</td><td class="num">$0.276</td><td class="num">$1.651</td><td class="num">1.0x</td></tr>
+            <tr><td>Qwen3.6-Plus (256K-1M)</td><td class="num">$1.101</td><td class="num">$6.602</td><td class="num">4.0x</td></tr>
+            <tr><td>GPT-5.2 / 5.4</td><td class="num">$2.50</td><td class="num">$15.00</td><td class="num">約9x</td></tr>
+            <tr><td>Claude Opus 4.5</td><td class="num">$5.00</td><td class="num">$25.00</td><td class="num">約18x</td></tr>
+            <tr><td>Claude Opus 4.6</td><td class="num">$5.00</td><td class="num">$25.00</td><td class="num">約18x</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：Claude比は「17倍」ではなく「約18倍」</div>
+        原稿は「Claude Opus 4.6 に対して入力コストが約17倍安価」としていたが、
+        $5.00 ÷ $0.276 = <span class="correct-mark">約18倍</span>（TokenCost ほか複数ソースも "18x less" と明記）。
+        17倍は切り捨てが過ぎる。
+      </div>
+
+      <h3 class="sub-heading">典型的エージェントセッションのコスト差</h3>
+      <p>入力10万トークン + 出力1万トークンの1セッションあたり：</p>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Qwen3.6-Plus</div><div class="stat-value">$0.05</div><div class="stat-unit">1セッション</div></div>
+        <div class="stat-card"><div class="stat-label">GPT-5.2</div><div class="stat-value">$0.40</div><div class="stat-unit">約8x</div></div>
+        <div class="stat-card"><div class="stat-label">Claude Opus 4.5</div><div class="stat-value">$0.75</div><div class="stat-unit">約15x</div></div>
+        <div class="stat-card"><div class="stat-label">月間コスト差</div><div class="stat-value">〜1桁</div><div class="stat-unit">数百万→数十万円</div></div>
+      </div>
+
+      <h3 class="sub-heading">速度面の優位</h3>
+      <p>
+        OpenRouter 経由の実測で、Qwen3.6-Plus のスループットは <b>158トークン/秒前後</b>。Claude Opus 4.5 のおよそ3倍の出力速度に相当する。先代 Qwen3.5-Plus の平均応答時間 39.1秒 から <b>13.9秒</b>まで短縮された背景には、「過剰思考の矯正」と「効率的な推論トークン配分」の両方が効いている。
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>指標</th><th>Qwen3.6</th><th>Qwen3.5</th><th>GLM-5 Turbo</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>consistency</td><td class="num">10.0</td><td class="num">9.0</td><td class="num">7.9</td></tr>
+            <tr><td>flaky test件数</td><td class="num">0</td><td class="num">2</td><td class="num">5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">開発者体験 ― 乗り換えやすさの設計</h3>
+      <ul class="feat-list">
+        <li>OpenAI互換エンドポイント（<code>dashscope-intl.aliyuncs.com/compatible-mode/v1</code>）で既存SDKがそのまま動く。</li>
+        <li>Anthropic互換エンドポイントで Claude Code 用シェルスクリプトがそのまま走る。</li>
+        <li>MCPネイティブ対応・JSON構造化ツールコール・並列ツールコール・スキーマ適合が標準装備。</li>
+        <li>OpenClaw / Claude Code / Cline / Qwen Code 公式統合済み。</li>
+        <li>「既存ワークフローを壊さずバックエンドだけQwenに差し替える」移行が可能。</li>
+      </ul>
+
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：恒常的な無料枠は2026/4/15に終了</div>
+        原稿の「Qwen Code OAuth で1日1,000回の恒常的な無料枠」は
+        <span class="correct-mark">2026年4月13日に100回/日へ縮小、4月15日に廃止</span>されている。
+        2026年4月20日時点では「短命な導入キャンペーン」として記述すべき。
+      </div>
+
+      <h3 class="sub-heading">コミュニティの声</h3>
+      <div class="quote">「OpusやCodexにしか任せていなかった重めのワークロードを、Qwen 3.6で代替できるようになった」（Reddit）</div>
+      <div class="quote">「複雑なプロジェクトでGPT-5がループしていた問題をQwen 3.6が一発で解決した」（HackerNews）</div>
+      <div class="quote">「ニッチなJava派生言語でのレイキャスティングエンジン実装が指示通り一発で通った」（X）</div>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ 結論：Qwen3.6 は「中国の追随者」ではなく「価格水準の再定義者」</div>
+        「安い・速い・乗り換えやすい・開発者コミュニティに支持される」という四拍子の優位性が重なったとき、Qwen3.6 はもはや単なるフォロワーではなく、<b>グローバルAI経済圏の価格水準を再定義するディスラプター</b>としての地位を確立しつつある。
+      </div>
+    </div>
+
+    <div class="pager">
+      <a href="specs.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ② スペック</span></span>
+      </a>
+      <a href="meaning.html" class="pager-next">
+        <span><span class="lbl">次の章</span><span class="ttl">④ 意味 →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

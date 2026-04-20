@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>⚠ ファクトチェック / 訂正一覧 | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header"><div class="nav-drawer-title">目次</div><button id="navClose" class="icon-btn" type="button">✕</button></div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャ</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコア</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukong/HW</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリデメ</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>FACT-CHECK / CORRECTIONS</span>
+      <h1 class="hero-title">⚠ <span class="grad">ファクトチェック</span><br>訂正一覧</h1>
+      <p class="hero-sub">本サイトの最重要資料。原稿および補遺篇に含まれていた<b>20点以上の事実誤認</b>を、公式ブログ・Hugging Face モデルカード・TokenCost 等で突き合わせた全点ガイドです。</p>
+    </section>
+
+    <!-- ナビ -->
+    <section class="section">
+      <h2 class="section-title">📋 訂正カテゴリ一覧</h2>
+      <p class="section-sub">クリックで該当セクションへジャンプ。</p>
+      <ul class="feat-list">
+        <li><a href="#cat-models">A. 比較対象モデル名の取り違え</a></li>
+        <li><a href="#cat-bench">B. ベンチマーク数値の誤り</a></li>
+        <li><a href="#cat-price">C. 価格・コスト表記の誤り</a></li>
+        <li><a href="#cat-arch">D. アーキテクチャ・仕様の誤り</a></li>
+        <li><a href="#cat-date">E. 日付・時系列の誤り</a></li>
+        <li><a href="#cat-ecosystem">F. エコシステム・実績値の古さ</a></li>
+        <li><a href="#cat-other">G. その他比喩・スコアの過不足</a></li>
+      </ul>
+    </section>
+
+    <!-- A: モデル名 -->
+    <section class="section" id="cat-models">
+      <h2 class="section-title">A. 比較対象モデル名の取り違え</h2>
+      <p class="section-sub">原稿では頻出していた誤記の筆頭カテゴリ。</p>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ A-1：Claude Opus 4.6 は公式比較対象ではない</div>
+        <p><b>誤</b>：原稿は「フロンティア級の対抗馬として <span class="strike">Claude Opus 4.6</span>」を筆頭に並べていた。また第13章・17章・エピローグで SWE-bench比較・価格比較・捏造率比較の主要カウンターパートとして登場。</p>
+        <p><b>正</b>：<span class="correct-mark">Qwen3.6-Plus 公式比較表で並べられているフロンティア4モデルは Claude Opus 4.5 / GPT-5.2 / Gemini-3 Pro / Kimi-K2.5</span>。
+        Opus 4.6 や GPT-5.4 は発表時点で既に存在していたが、公式ベンチマーク表の主要比較軸からは外されていた点を、<b>むしろコミュニティから指摘されていた</b>経緯がある。筆頭モデル名として不正確。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ A-2：RealWorldQA の比較相手は Sonnet 4.5 ではなく Gemma4-31B</div>
+        <p><b>誤</b>：「35B-A3B の RealWorldQA で <span class="strike">クローズドモデルである Claude Sonnet 4.5 の 70.3点を上回る</span>」。</p>
+        <p><b>正</b>：公式 35B-A3B 比較表で 70.3 と対比されているのは <span class="correct-mark">Gemma4-31B（オープンウェイト）</span>。対象モデルの取り違え。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ A-3：Plus 側 RealWorldQA の比較相手</div>
+        <p><b>誤</b>：原稿は Plus 側の RealWorldQA でも「Claude Sonnet 4.5」を比較相手に置いていた可能性あり。</p>
+        <p><b>正</b>：公式ブログで RealWorldQA の比較相手として掲載されているのは <span class="correct-mark">Claude 4.5 Opus（Sonnet ではない）／スコア 77.0</span>。
+        「Claude Sonnet 4.5 = 70.3」という具体値の裏付けは公式資料・第三者ベンチの<b>いずれにも見当たらない</b>。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ A-4：安全性スコアの帰属</div>
+        <p><b>誤</b>：原稿は「GPT-5.4（87.3）」「Claude（87.2）」を本体モデルのスコアとして扱った。</p>
+        <p><b>正</b>：BridgeBench の Security Bench で 87.3 を記録しているのは
+        <span class="correct-mark">GPT-5.4 Mini（ミニ版）</span>であり、GPT-5.4 本体ではない。
+        <span class="correct-mark">Claude の 87.2 は Sonnet 4.5 のスコア</span>であり、Opus の値ではない。Opus 4.6 の BridgeBench Security Bench 公開スコアは別数値（公表ベースでは 90 台半ば）。</p>
+      </div>
+    </section>
+
+    <!-- B: ベンチ数値 -->
+    <section class="section" id="cat-bench">
+      <h2 class="section-title">B. ベンチマーク数値の誤り</h2>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ B-1：SWE-bench Pro「大きく上回る」は誤り</div>
+        <p><b>誤</b>：「Qwen3.6-Plus の 56.6点 が Claude Opus 4.5 の <span class="strike">45.9点</span> を大きく上回る」。</p>
+        <p><b>正</b>：Claude Opus 4.5 の SWE-bench Pro スコアは
+        <span class="correct-mark">Qwen公式ブログ表で 59.3、TokenCost集計で 57.1</span>（57点前後）。
+        Qwen3.6-Plus の 56.6点は Opus 4.5 を「大きく上回る」のではなく、<b>むしろやや下回る</b>水準。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ B-2：SWE-bench Verified の Claude側数値</div>
+        <p><b>誤</b>：「Claude Opus 4.6 80.8点」を公式比較対象として扱う。</p>
+        <p><b>正</b>：公式比較表に載っているのは
+        <span class="correct-mark">Claude Opus 4.5 の 80.9点</span>。
+        Opus 4.6 の 80.8 は第三者サイト（digitalapplied 等）が別途集計したもの。公式ベンチの比較相手は 4.5 が正。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ B-3：AIME の年次表記</div>
+        <p><b>誤</b>：「<span class="strike">AIME 2026</span>（数学オリンピック予選）で 95.3点」。</p>
+        <p><b>正</b>：Qwen3.6-Plus スコア 95.3 に対応する公式表記は
+        <span class="correct-mark">AIME25（2025年のAIME、スコア95.3）</span>。
+        AIME 2026 のスコアは、オープンウェイト版 35B-A3B の community-submitted evaluation 側で別途 92.7 として公表されているもの。原稿は Plus のスコアを「AIME 2026」に誤って紐付けている。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ B-4：HMMT の表記</div>
+        <p><b>誤</b>：「HMMT Feb 25」という略記。</p>
+        <p><b>正</b>：HMMT の 96.7 は
+        <span class="correct-mark">HMMT 2025（2月開催分）</span>を指すので、スコア自体は正だが、「Feb 25」表記は年号略記として<b>誤解を招く</b>（2月25日と読める）。本サイトでは HMMT25 と表記。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ B-5：SWE-bench Multilingual と TAU3-Bench の入れ替え</div>
+        <p><b>誤</b>：「Qwen3.6-35B-A3B の <span class="strike">SWE-bench Multilingual を 67.2 点</span>」。</p>
+        <p><b>正</b>：Hugging Face の公式モデルカードに記載されている値は、
+        <span class="correct-mark">67.2 は TAU3-Bench のスコア</span>。
+        原稿は SWE-bench Multilingual のスコアと TAU3-Bench のスコアが入れ替わって記載されている。数値引用時は公式モデルカード最新版を直接確認のこと。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ B-6：RealWorldQA の Plus 側スコア</div>
+        <p><b>誤</b>：「85.3 対 70.3 の大差」。</p>
+        <p><b>正</b>：Qwen3.6-Plus の RealWorldQA 公式スコアは
+        <span class="correct-mark">85.4（85.3 ではない／0.1ポイントずれ）</span>。
+        比較相手は Opus 4.5 の 77.0。</p>
+      </div>
+    </section>
+
+    <!-- C: 価格 -->
+    <section class="section" id="cat-price">
+      <h2 class="section-title">C. 価格・コスト表記の誤り</h2>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ C-1：国際リージョン価格と段階課金の欠落</div>
+        <p><b>誤</b>：「入力 <span class="strike">$0.29</span>／1Mトークン、出力 <span class="strike">$1.65</span>／1Mトークン」。</p>
+        <p><b>正</b>：Alibaba Cloud Model Studio の公表値はグローバル（0–256Kレンジ）で
+        <span class="correct-mark">入力 $0.276／1M、出力 $1.651／1M</span>。
+        また、<b>256K〜1M の長文コンテキスト帯では入力 $1.101／1M、出力 $6.602／1M と大幅に上がる段階課金</b>である点が原稿で抜け落ちている。フルコンテキスト常用時には実効単価が4倍近くになる。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ C-2：Claude比は「17倍」ではなく「約18倍」</div>
+        <p><b>誤</b>：「Claude Opus 4.6 に対して入力コストが約 <span class="strike">17倍</span> 安価」。</p>
+        <p><b>正</b>：Opus 4.5 の入力単価 $5.00 に対し Qwen3.6-Plus の $0.276 なので、実際の倍率は
+        <span class="correct-mark">約18倍</span>（TokenCost ほか複数ソースも "18x less" と明記）。
+        17倍は切り捨てが過ぎる。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ C-3：OAuth 無料枠は廃止済み</div>
+        <p><b>誤</b>：「Qwen Code CLI 経由で OAuth ログインすれば<span class="strike">1日1,000回の無料呼び出し</span>が付与される」「<span class="strike">恒常的な無料枠提供</span>」。</p>
+        <p><b>正</b>：Qwen Code 公式リポジトリ（QwenLM/qwen-code）のリリースノートに明記されている通り、
+        <span class="correct-mark">2026年4月13日に OAuth フリーティアは1日あたり1,000回から100回へ引き下げ、さらに2026年4月15日をもって OAuth 無料枠そのものが廃止</span>されている。
+        本稿の想定時点である2026年4月20日においては「1日1,000回」は既に過去の数字であり、「恒常的な無料枠提供」という評価も完全に成立しない。少なくとも「短命な導入キャンペーン」と書くのが正。</p>
+      </div>
+    </section>
+
+    <!-- D: アーキテクチャ -->
+    <section class="section" id="cat-arch">
+      <h2 class="section-title">D. アーキテクチャ・仕様の誤り</h2>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ D-1：「常時思考連鎖により切替を廃止」は不正確</div>
+        <p><b>誤</b>：「すべてのプロンプトに対して強制的に思考連鎖を走らせる」意味での切替廃止。</p>
+        <p><b>正</b>：公式ブログ仕様では、Qwen3.6-Plus にも依然として
+        <span class="correct-mark">thinking / non-thinking の制御（preserve_thinking パラメータおよびモード指定）が残っている</span>。
+        制御の抽象度が上がっただけで、ユーザー側からの思考制御インターフェース自体は撤廃されていない。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ D-2：Qwen3.5 ラインナップに「35B-A3B」は存在しない</div>
+        <p><b>誤</b>：前世代として「Qwen3.5-35B-A3B」を挙げる。</p>
+        <p><b>正</b>：Qwen3.5系列のオープンウェイトは
+        <span class="correct-mark">Qwen3.5-397B-A17B（フラッグシップ）／Qwen3.5-122B-A10B／Qwen3.5-27B</span>が並んでおり、
+        Plus（クローズド）のバックボーンは 397B-A17B に相当。
+        <b>「35B-A3B」サイズ帯は Qwen3.6 世代で初めて登場</b>（2026年4月16日リリース）。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ D-3：35B-A3B のコンテキストは「262K 単独」ではない</div>
+        <p><b>誤</b>：「262,144トークン」と単独で記載。</p>
+        <p><b>正</b>：公式 Hugging Face モデルカードの仕様は
+        <span class="correct-mark">"262,144 natively and extensible up to 1,010,000 tokens"</span>（ネイティブ262K、YaRN等で約1Mまで拡張可）であり、拡張時1Mの上限記載が欠落している。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ D-4：Qwen3.5-Plus の旧コンテキストの扱い</div>
+        <p><b>誤</b>：「Qwen3.5-Plus の <span class="strike">262K から一気に約4倍</span> へ拡張」。</p>
+        <p><b>正</b>：先代
+        <span class="correct-mark">Qwen3.5-Plus はリリース当初からデフォルトで1Mコンテキスト</span>を備えていた。
+        ネイティブ262Kだったのはオープンウェイト版の Qwen3.5系（-27B 等）であり、ホステッドのPlusと混同している。Qwen3.6-Plus の1Mは「前世代 Plus と同じ1Mを維持しつつ、ネイティブ対応の幅を広げた」と書くのが正確。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ D-5：層数とパターンが Qwen3-Next と混同</div>
+        <p><b>誤</b>：「<span class="strike">48層</span>、4層ごとに1層フル注意＋3層線形、1:3を<span class="strike">12回繰り返し</span>」。</p>
+        <p><b>正</b>：これは <b>Qwen3-Next 80B-A3B</b> の仕様。
+        Qwen3.6-35B-A3B の公式 Hugging Face モデルカードに記載されている仕様は
+        <span class="correct-mark">Number of Layers: 40、Pattern: 10 × (3 × DeltaNet → MoE + 1 × Attention)</span>
+        ＝ 4層ブロックを10回繰り返す40層構造。比率 3:1 は両世代共通だが総層数と繰り返し回数は取り違え。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ D-6：「12:1 が最もスパース」は過大評価</div>
+        <p><b>誤</b>：「Qwen3.6-35B-A3B の12対1は、公開されている MoE の中で<span class="strike">最も極端なスパース比率の一つ</span>」。</p>
+        <p><b>正</b>：同じアリババが2026年9月に公開した
+        <span class="correct-mark">Qwen3-Next-80B-A3B は総80B／アクティブ約3Bで比率約27:1</span>、
+        <span class="correct-mark">Kimi K2（総1T／アクティブ32B ≒ 31:1）</span>、DeepSeek系の次世代モデルなど、12:1を上回るスパース比率のオープンMoEは複数存在する。「オープンウェイトMoEとしてはかなりスパースな部類」程度が妥当。</p>
+      </div>
+    </section>
+
+    <!-- E: 日付 -->
+    <section class="section" id="cat-date">
+      <h2 class="section-title">E. 日付・時系列の誤り</h2>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ E-1：Wukong 発表日は 4/2 ではなく 3/17</div>
+        <p><b>誤</b>：「アリババは <span class="strike">2026年4月2日</span> に Wukong を正式発表した」（第11章・第14章）。</p>
+        <p><b>正</b>：Wukongが正式発表されたのは
+        <span class="correct-mark">2026年3月17日（火）</span>。
+        同日、アリババは組織再編（Alibaba Token Hub〈ATH〉新設）の翌日として、DingTalk連携のエンタープライズ向けAIエージェント基盤Wukongを招待制ベータで公開した。
+        <br><br>
+        <b>補足</b>：原稿が「4月2日」としたのは、Qwen3.6-Plus本体のOpenRouter公開日（2026年4月2日）との混同。両イベントは約2週間ずれており、<b>Wukong はむしろ Qwen3.6-Plus リリースの半月前に先行発表された既存プラットフォーム</b>で、後から Qwen3.6-Plus を頭脳として統合した、というのが正しい時系列。</p>
+      </div>
+    </section>
+
+    <!-- F: エコシステム -->
+    <section class="section" id="cat-ecosystem">
+      <h2 class="section-title">F. エコシステム・実績値の古さ</h2>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ F-1：Hugging Face 実績は「4億DL/14万派生」より大幅に大きい</div>
+        <p><b>誤</b>：2026年4月時点の文脈で「累計 <span class="strike">4億回ダウンロード／14万種の派生モデル</span>」。</p>
+        <p><b>正</b>：4億回ダウンロード・14万派生モデルは
+        <span class="correct-mark">2025年年央（7〜8月頃）時点</span>のアリババ公式発表値。
+        2025年12月時点で単月ダウンロードが他8社合計を上回り、<b>2026年初頭にはアリババ自身が「累計10億回ダウンロード超え」</b>と発表している。したがって補遺篇が前提とする「2026年4月20日時点」の数値としては古く、実態より過少。より正確には
+        <span class="correct-mark">累計10億回超／派生モデル30万種以上</span>
+        規模で記載すべき。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ F-2：量子化バリアントは10種ではなく20種超</div>
+        <p><b>誤</b>：「Qwen3.6 公開から24時間以内に <span class="strike">GGUF量子化版が10種類以上</span> 出回った」。</p>
+        <p><b>正</b>：2026年4月16日のリリース当日〜翌日にかけて、
+        <span class="correct-mark">Unsloth / Bartowski / mlx-community などから 20種類以上の量子化バリアント（GGUF / MLX / AWQ / FP8 等）</span>
+        が公開されたことが Hugging Face のリポジトリ履歴から確認できる。「10種類以上」は過少。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ F-3：Qwen3.5 シリーズの2026年2月リリース構成</div>
+        <p><b>誤</b>：「Qwen3.5 シリーズとして <span class="strike">122B-A10B、35B-A3B、27B</span> の3モデルが2026年2月24日に出た」と示唆（第14章・第17章関連）。</p>
+        <p><b>正</b>：Qwen3.5 の2026年2月リリースのラインナップは実際には
+        <span class="correct-mark">Qwen3.5-122B-A10B／Qwen3.5-Max／Qwen3.5-VL 系を中心としたファミリー</span>。
+        「35B-A3B」は Qwen3.5 世代には存在せず、Qwen3.6 世代で初めて登場したサイズ帯（2026年4月16日リリース）。「Qwen3.5-35B-A3B」という表記は誤り。</p>
+      </div>
+    </section>
+
+    <!-- G: 比喩 -->
+    <section class="section" id="cat-other">
+      <h2 class="section-title">G. その他比喩・スコアの過不足</h2>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ G-1：「100万トークン = 単行本10冊分」は英語換算</div>
+        <p><b>誤</b>：プロローグで「100万トークン＝<span class="strike">単行本約10冊分</span>」。</p>
+        <p><b>正</b>：日本語の場合、1トークン ≒ 0.6〜0.9文字相当で、100万トークンは日本語テキストで
+        <span class="correct-mark">概ね60〜90万字（単行本6〜9冊分）</span>。
+        英語基準では約10冊相当。「単行本10冊分」は英語換算のみで、<b>日本語読者向け表現としては過大表示</b>。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ G-2：OpenRouter 記録は「1兆」ではなく「約1.4兆」</div>
+        <p><b>誤</b>：「単一のAIモデルが24時間で <span class="strike">1兆トークン（1,000,000,000,000トークン）</span> を処理するという記録」。</p>
+        <p><b>正</b>：OpenRouter 公式アカウントおよび各種報道が明示した実際の数字は
+        <span class="correct-mark">約1.4兆トークン（約1,400,000,000,000）</span>
+        であり、「1兆の大台を史上初めて突破しつつ同日に1.4兆まで積み上がった」が正しい表現。公式記録の値を約0.4兆分過少に記述している。</p>
+      </div>
+
+      <div class="callout correction">
+        <div class="callout-head">❌ G-3：Wikipedia 6,000回という比喩は誇張</div>
+        <p><b>誤</b>：「英語版Wikipediaの全記事を一日に <span class="strike">6,000回以上</span> 読み込んだ計算に相当する」。</p>
+        <p><b>正</b>：英語版Wikipedia全記事のトークン総量は、標準的な BPE トークナイザで概ね80億〜100億トークン程度。実際の記録値である1.4兆トークンで計算しても
+        <span class="correct-mark">約140回</span>、
+        原稿の前提である1兆トークンでも約100回が上限で、「6,000回」は実際の40〜60倍に膨らませた誇張。「約100〜150回」ないし「英語版Wikipedia全体を1日で百数十回読み切れる規模」と書くのが妥当。</p>
+      </div>
+    </section>
+
+    <!-- まとめ -->
+    <section class="section">
+      <h2 class="section-title">📊 訂正数サマリ</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">A. モデル名</div>
+          <div class="stat-value">4</div>
+          <div class="stat-unit">件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">B. ベンチ数値</div>
+          <div class="stat-value">6</div>
+          <div class="stat-unit">件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">C. 価格</div>
+          <div class="stat-value">3</div>
+          <div class="stat-unit">件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">D. 仕様</div>
+          <div class="stat-value">6</div>
+          <div class="stat-unit">件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">E. 日付</div>
+          <div class="stat-value">1</div>
+          <div class="stat-unit">件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">F. 実績</div>
+          <div class="stat-value">3</div>
+          <div class="stat-unit">件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">G. 比喩</div>
+          <div class="stat-value">3</div>
+          <div class="stat-unit">件</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">合計</div>
+          <div class="stat-value">26</div>
+          <div class="stat-unit">件の訂正</div>
+        </div>
+      </div>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ 本サイトの方針</div>
+        本サイトは、<b>原稿（徹底解剖・補遺篇）の記述と訂正レポートの内容を突き合わせ、訂正レポートの情報を最も信頼できる情報として採用</b>した上で、各章の文面を再構成しています。
+        原稿の文章の美観を残しつつ、ファクトが間違っている箇所は「原稿の誤」を透過的に示した上で「正」を併記する形式としました。
+      </div>
+    </section>
+
+    <!-- 参考ソース -->
+    <section class="section">
+      <h2 class="section-title">🔗 主な参照一次ソース</h2>
+      <ul class="feat-list">
+        <li>Qwen 公式ブログ（qwen.ai/blog?id=qwen3.6）：比較表・ベンチマーク表</li>
+        <li>Hugging Face 公式モデルカード（QwenLM/Qwen3.6-35B-A3B）：層数・コンテキスト仕様</li>
+        <li>Alibaba Cloud Model Studio ドキュメント：国際リージョン価格</li>
+        <li>TokenCost 集計：複数モデルの価格・ベンチ横比較</li>
+        <li>OpenRouter 公式アカウント：1日1.4兆トークン達成の公式アナウンス</li>
+        <li>BridgeBench：Security Bench v1 および Fabrication Rate</li>
+        <li>QwenLM/qwen-code リリースノート：OAuth 無料枠縮小・廃止の告知</li>
+      </ul>
+    </section>
+
+    <div class="pager">
+      <a href="future.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ⑨ 未来</span></span>
+      </a>
+      <a href="index.html" class="pager-next">
+        <span><span class="lbl">戻る</span><span class="ttl">🏠 トップへ</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版 ― ファクトチェック反映済み</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

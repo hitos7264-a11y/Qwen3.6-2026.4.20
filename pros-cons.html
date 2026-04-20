@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <title>⑧ メリット10選 / デメリット5選 | Qwen3.6 徹底解剖</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="topbar-brand">
+        <span class="brand-mark">Q</span><span>Qwen3.6<span class="brand-sub">2026.04.19</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button">🌙</button>
+        <button id="navOpen" class="icon-btn" type="button">☰</button>
+      </div>
+    </div>
+  </header>
+  <div id="navBackdrop" class="nav-backdrop"></div>
+  <aside id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header"><div class="nav-drawer-title">目次</div><button id="navClose" class="icon-btn" type="button">✕</button></div>
+    <ul class="nav-list">
+      <li><a href="index.html"><span class="nav-num">🏠</span>トップ</a></li>
+      <li><a href="overview.html"><span class="nav-num">01</span>概要</a></li>
+      <li><a href="specs.html"><span class="nav-num">02</span>スペック</a></li>
+      <li><a href="benchmarks.html"><span class="nav-num">03</span>競争優位性</a></li>
+      <li><a href="meaning.html"><span class="nav-num">04</span>意味</a></li>
+      <li><a href="architecture.html"><span class="nav-num">05</span>アーキテクチャ</a></li>
+      <li><a href="realworld.html"><span class="nav-num">06</span>実世界スコア</a></li>
+      <li><a href="enterprise.html"><span class="nav-num">07</span>Wukong/HW</a></li>
+      <li><a href="pros-cons.html"><span class="nav-num">08</span>メリデメ</a></li>
+      <li><a href="future.html"><span class="nav-num">09</span>未来</a></li>
+      <li><a href="corrections.html"><span class="nav-num">⚠</span>ファクトチェック</a></li>
+    </ul>
+  </aside>
+
+  <main class="page">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>PROS & CONS</span>
+      <h1 class="hero-title">⑧ <span class="grad">メリット10選</span><br>/ デメリット5選</h1>
+      <p class="hero-sub">本気で Qwen3.6 を採用する前に読むべき「光と影」。26.5%の捏造率、日本語ベンチ未公開、OAuth 無料枠の廃止まで含めて率直に評価します。</p>
+    </section>
+
+    <!-- 第16章 メリット -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 16</div>
+      <div class="chapter-title">メリット総まとめ ― Qwen3.6 を選ぶ「10の理由」</div>
+    </div>
+
+    <div class="body-text">
+      <ul class="feat-list num">
+        <li>
+          <b>圧倒的なコスト効率</b>：Qwen3.6-Plus は GPT-5.2 比で約 8〜9倍、Claude Opus 4.5 比で約 <b>15〜18倍安価</b>。エージェント用途のような大量トークン消費で月間コストが一桁落ちる。
+        </li>
+        <li>
+          <b>100万トークンの規格外コンテキスト</b>：リポジトリ全体の読み込みや長文契約書の一括解析など、従来不可能だった「ワンショットでの全体把握」を可能にする。
+        </li>
+        <li>
+          <b>Always-on CoT + preserve_thinking</b>：マルチターンのエージェントタスクで思考の連続性が保たれ、従来の「AIが直前の会話を忘れる」現象が劇的に減る。
+        </li>
+        <li>
+          <b>OpenAI / Anthropic 互換 API</b>：既存コードを1行も変えずに Claude や GPT から乗り換えられる。
+        </li>
+        <li>
+          <b>主要CLI全対応</b>：OpenClaw、Claude Code、Cline、Qwen Code、Kilo Code、OpenCode のすべてに即日対応。
+        </li>
+        <li>
+          <b>Apache 2.0 オープンウェイト</b>：35B-A3B は商用利用・再配布・ファインチューニング（追加学習）が完全に自由。企業が社内データで独自モデルを作ることも容易。
+        </li>
+        <li>
+          <b>民生機GPU・Apple Silicon対応</b>：18〜20GB VRAM で動作するため、データを一切クラウドに送らず<b>自社内で完結</b>させたい金融・医療・官公庁用途にも適する。
+        </li>
+        <li>
+          <b>マルチハードウェア最適化</b>：AMD Instinct / NVIDIA全世代 / Apple Silicon / Intel など、異なるハード系統で公式対応が揃い、<b>ベンダーロックインからの脱出</b>が現実的。
+        </li>
+        <li>
+          <b>即戦力の実世界能力</b>：視覚コーディング、GUIエージェント、ドキュメント解析（OmniDocBench 91.2点＝業界首位）など、エンタープライズ現場で即ROIを出せる能力群が標準装備。
+        </li>
+        <li>
+          <b>垂直統合された導入パス</b>：Wukong や Qwen App といったエンタープライズ／コンシューマプロダクトへの垂直統合が進み、単体APIを使うだけでなくプラットフォーム全体としての導入経路が用意されている。
+        </li>
+      </ul>
+
+      <div class="callout fact">
+        <div class="callout-head">✅ メリットの総括</div>
+        Qwen3.6 は「技術的に尖っているが使いにくい挑戦者」ではなく、
+        <b>「エンタープライズ導入のあらゆる経路を整備しきった総合商社型のAI」</b>として登場した、という理解が正しい。
+      </div>
+    </div>
+
+    <!-- 第17章 デメリット -->
+    <div class="chapter">
+      <div class="chapter-num">CHAPTER 17</div>
+      <div class="chapter-title">デメリットと影の部分 ― 26.5%の捏造率、自己報告ベンチ疑惑、日本語軽視</div>
+    </div>
+
+    <div class="body-text">
+      <p class="lead">
+        Qwen3.6 を冷静に評価するならば、その影の部分にこそ、これからの数ヶ月で開発者コミュニティが格闘することになる実務的論点が集中している。
+      </p>
+
+      <h3 class="sub-heading">① 26.5% という高い捏造率</h3>
+      <div class="callout warn">
+        <div class="callout-head">⚠️ Fabrication Rate 26.5%</div>
+        第三者ベンチマークサイト BridgeBench が公表した数値。AIにコード解析や事実関係の質問をしたとき、どの程度の頻度で根拠のない主張を作り出すかを測定したもの。
+        <b>4回に1回はAPIの仕様や言語の挙動について「それっぽいが間違っている」回答を混ぜてくる</b>ことを意味する。
+      </div>
+      <p>
+        同じベンチで Claude Opus や GPT-5.x は 10%台に収まっており、Qwen3.6 の信頼性は明らかにワンランク下。
+        <b>Always-on CoT が思考を深める方向に機能する一方で、思考の中で生成された「もっともらしい中間仮説」がそのまま出力に混入しやすい</b>、という構造的課題が指摘されている。これを補うには、ユーザー側が検索ツールやコード実行ツールを併用し、モデルの出力を外部的に検証するパイプラインを整えるしかない。
+      </p>
+
+      <h3 class="sub-heading">② 安全性スコアの 5ポイント遅れ</h3>
+      <p>
+        安全性スコアは <b>82.4</b>（対 Claude Sonnet 4.5 の 87.2、GPT-5.4 Mini の 87.3）。
+        5ポイント差は絶対値としては小さいが、エンタープライズの監査（コンプライアンスチェック）では致命傷にもなり得る。
+      </p>
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 比較相手の訂正</div>
+        原稿は「Claude（87.2）」「GPT-5.4（87.3）」を Opus 4.6 / GPT-5.4 本体のスコアのように書いていたが、
+        <span class="correct-mark">87.2 は Claude Sonnet 4.5、87.3 は GPT-5.4 Mini のスコア</span>。
+        Opus 4.6 の BridgeBench 公開スコアは別数値（公表ベースでは 90 台半ば）。
+      </div>
+
+      <p>
+        加えて、中国発のモデルとして、特定の政治的・歴史的トピックに対するガードレール（応答制限）がどのように設計されているかの詳細は、公式ドキュメントからは十分に読み取れない。グローバル展開する企業が Qwen を全面採用する際には、<b>自社でコンテンツフィルタリングを重ねる運用上の手間</b>が発生する可能性が高い。
+      </p>
+
+      <h3 class="sub-heading">③ 自己報告ベンチの信頼性</h3>
+      <p>
+        アリババが公表するビジョン系ベンチマーク（特に RealWorldQA 85.4 など）について、自己報告である以上、<b>外部検証を通過するまでは慎重に読むべき</b>、という批判が独立系レビュアーから出ている。
+      </p>
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正：RealWorldQA の比較相手</div>
+        原稿は「Claude Sonnet 4.5（70.3）に 85.3 対 70.3 の大差を付けている」としていたが、
+        <span class="correct-mark">公式比較表で 70.3 と対比されているのは Gemma4-31B（オープンウェイト）</span>であり、Sonnet 4.5 ではない。数値比較の文脈自体に誤りがあった。
+      </div>
+
+      <h3 class="sub-heading">④ 日本語ベンチマークの未公開</h3>
+      <p>
+        113言語対応と謳われながら、<b>日本語特有のベンチマーク（JGLUE、JSQuAD、JCoLA など）での数値が公式には一切公開されていない</b>。日本語の文学的・ビジネス的な微妙なニュアンスを扱う実務では、実測での検証が現時点では開発者自身の肩にかかっている。
+      </p>
+
+      <h3 class="sub-heading">⑤ Always-on CoT によるコスト上振れ</h3>
+      <p>
+        Always-on CoT によって出力トークンが膨らむケースが実運用で報告されており、<code>preserve_thinking</code> を正しく設定しないと、想定よりコストが上振れする事例もある。
+      </p>
+
+      <h3 class="sub-heading">⑥【追加】OAuth無料枠の消滅</h3>
+      <div class="callout correction">
+        <div class="callout-head">⚠️ 訂正点：導入経済性の劣化</div>
+        原稿の「OAuthで1日1,000回の恒常的な無料枠」は
+        <span class="correct-mark">2026年4月13日に100回/日へ縮小、4月15日に完全廃止</span>されており、2026年4月20日時点では個人開発者・小規模スタートアップの導入ハードルが（相対的には依然低いものの）上がっている。
+      </div>
+
+      <h3 class="sub-heading">⑦【追加】256K〜1M帯の段階課金</h3>
+      <p>
+        原稿で欠落していた論点として、コンテキストが 256K を超えると <b>入力単価が $0.276 → $1.101</b>、<b>出力単価が $1.651 → $6.602</b> へと一気に約4倍へ跳ね上がる段階課金構造になっている。<b>フルコンテキストを常用するユースケースでは、実効単価が公称の4倍近くになる</b>点に要注意。
+      </p>
+
+      <div class="callout warn">
+        <div class="callout-head">🌑 デメリットの総括</div>
+        これらの弱点は、Qwen3.6 が「フロンティアに追いついた」という事実を否定するものではない。しかし<b>「追いついた」と「抜いた」は別物</b>であり、特に信頼性・安全性・多言語ニュアンスの三領域では、アリババがもう一段の努力を迫られる2026年下半期が待っている──というのが、公平な見立てだろう。
+      </div>
+
+      <h3 class="sub-heading">採用判断のチェックリスト</h3>
+      <ul class="feat-list">
+        <li><b>コード・エージェント用途で大量トークン消費</b> → Qwen3.6 は強力な候補。</li>
+        <li><b>医療・金融・法務など「事実誤りが致命的」</b> → 外部検証パイプラインを必須で整備。</li>
+        <li><b>日本語の微妙なニュアンスが重要</b> → 実測ベンチを自社で取るべき。</li>
+        <li><b>256K以上のフルコンテキスト常用</b> → 段階課金を織り込んだコスト試算を。</li>
+        <li><b>オンプレ / プライバシー重視</b> → 35B-A3B オープンウェイトが現実解。</li>
+        <li><b>中国リージョンの政治的・規制リスク</b> → Omitted政治トピックのフィルタ自作を。</li>
+      </ul>
+    </div>
+
+    <div class="pager">
+      <a href="enterprise.html" class="pager-prev">
+        <span><span class="lbl">前の章</span><span class="ttl">← ⑦ Wukong/HW</span></span>
+      </a>
+      <a href="future.html" class="pager-next">
+        <span><span class="lbl">次の章</span><span class="ttl">⑨ 未来 →</span></span>
+      </a>
+    </div>
+  </main>
+
+  <button id="toTop" class="to-top">↑</button>
+  <footer class="footer">
+    <div class="foot-brand"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--brand-grad);color:#fff;text-align:center;line-height:22px;font-size:11px;font-weight:900;">Q</span>Qwen3.6 徹底解剖</div>
+    <div>2026年4月19日版</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
